@@ -16,39 +16,48 @@
 :root{--bg:#F4F6F9;--card:#fff;--primary:#1A56DB;--primary-light:#EBF2FF;--primary-dark:#1240A8;--green:#057A55;--green-light:#DEF7EC;--red:#C81E1E;--red-light:#FDE8E8;--amber:#92400E;--amber-light:#FEF3C7;--text:#111827;--text2:#6B7280;--text3:#9CA3AF;--border:#E5E7EB;--radius:12px;--shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);--safe-bottom:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--primary)}
-.login-card{background:white;border-radius:20px;padding:32px 24px;width:100%;max-width:360px}
-.login-logo{text-align:center;margin-bottom:24px}
-.login-logo h1{font-size:22px;font-weight:600;color:var(--primary);margin-top:8px}
+
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(135deg,#1A56DB 0%,#1240A8 100%)}
+.login-card{background:white;border-radius:20px;padding:32px 24px;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.login-logo{text-align:center;margin-bottom:28px}
+.login-logo-icon{width:64px;height:64px;background:var(--primary-light);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px}
+.login-logo h1{font-size:22px;font-weight:600;color:var(--text)}
 .login-logo p{font-size:13px;color:var(--text2);margin-top:4px}
-.login-tabs{display:flex;background:var(--bg);border-radius:10px;padding:3px;margin-bottom:20px}
-.login-tab{flex:1;padding:8px;text-align:center;font-size:14px;font-weight:500;border-radius:8px;cursor:pointer;color:var(--text2);transition:.2s}
-.login-tab.active{background:white;color:var(--primary);box-shadow:0 1px 3px rgba(0,0,0,.1)}
-.login-error{background:var(--red-light);color:var(--red);font-size:13px;padding:10px 12px;border-radius:8px;margin-bottom:12px;display:none}
+.login-error{background:var(--red-light);color:var(--red);font-size:13px;padding:10px 12px;border-radius:8px;margin-bottom:14px;display:none;text-align:center}
+
+/* APP */
 .app{display:none}
 .header{background:var(--primary);color:white;padding:48px 20px 14px;position:sticky;top:0;z-index:100}
 .header-top{display:flex;justify-content:space-between;align-items:center}
-.header h1{font-size:18px;font-weight:600}
+.header h1{font-size:17px;font-weight:600}
 .header-sub{font-size:12px;opacity:.8;margin-top:2px}
-.header-right{display:flex;align-items:center;gap:8px}
+.header-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .header-badge{background:rgba(255,255,255,.2);border-radius:20px;padding:4px 10px;font-size:12px;font-weight:500;white-space:nowrap}
-.logout-btn{background:rgba(255,255,255,.15);border:none;color:white;border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer}
+.unit-chip{background:rgba(255,255,255,.25);border-radius:20px;padding:4px 10px;font-size:12px;font-weight:600}
+.logout-btn{background:rgba(255,255,255,.15);border:none;color:white;border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;white-space:nowrap}
+
 .bottom-tabs{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:var(--safe-bottom)}
 .btab{flex:1;padding:10px 4px 8px;text-align:center;cursor:pointer;transition:.2s;border:none;background:none}
 .btab-icon{font-size:22px;display:block}
 .btab-label{font-size:10px;font-weight:500;color:var(--text3);margin-top:2px;display:block}
 .btab.active .btab-label{color:var(--primary)}
 .btab.active .btab-icon{transform:scale(1.1)}
+
 .screen{display:none;padding:14px 14px 80px}
 .screen.active{display:block}
+
 .card{background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
 .card-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+
 .form-group{margin-bottom:13px}
 .form-label{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:.5px}
 .form-control{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:9px;font-size:15px;font-family:'DM Sans',sans-serif;color:var(--text);background:white;appearance:none;-webkit-appearance:none;outline:none;transition:border-color .2s}
 .form-control:focus{border-color:var(--primary)}
 select.form-control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.readonly-field{background:#F9FAFB;color:var(--text);font-weight:500}
+
 .photo-box{border:2px dashed var(--border);border-radius:10px;padding:18px;text-align:center;cursor:pointer;background:#FAFAFA;position:relative}
 .photo-box.has-photo{padding:0;border:none}
 .photo-box img{width:100%;max-height:180px;object-fit:cover;border-radius:10px;display:block}
@@ -57,14 +66,17 @@ select.form-control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http:
 .photo-text{font-size:13px;color:var(--text2)}
 .photo-optional{font-size:11px;color:var(--text3);margin-top:4px}
 #photoInput{display:none}
+
 .btn{width:100%;padding:14px;border-radius:10px;border:none;font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center;gap:8px}
 .btn:active{transform:scale(.97)}
 .btn-primary{background:var(--primary);color:white}
+.btn-primary:active{background:var(--primary-dark)}
 .btn-danger{background:var(--red);color:white}
 .btn-outline{background:white;color:var(--primary);border:1.5px solid var(--primary)}
 .btn-sm{padding:8px 14px;font-size:13px;border-radius:8px;width:auto}
 .btn-whatsapp{background:#25D366;color:white;margin-top:8px}
 .btn-export{background:var(--amber-light);color:var(--amber);margin-bottom:8px}
+
 .stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:14px}
 .stat-card{background:white;border-radius:10px;padding:12px 8px;text-align:center;box-shadow:var(--shadow)}
 .stat-num{font-size:26px;font-weight:600;font-family:'DM Mono',monospace;line-height:1}
@@ -72,7 +84,9 @@ select.form-control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http:
 .stat-in .stat-num{color:var(--green)}
 .stat-out .stat-num{color:var(--text2)}
 .stat-total .stat-num{color:var(--primary)}
+
 .visitor-item{background:white;border-radius:10px;padding:12px 13px;margin-bottom:9px;box-shadow:var(--shadow);display:flex;gap:11px;align-items:flex-start;cursor:pointer}
+.visitor-item:active{transform:scale(.99)}
 .visitor-photo{width:46px;height:46px;border-radius:8px;flex-shrink:0;overflow:hidden;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:20px}
 .visitor-photo img{width:100%;height:100%;object-fit:cover}
 .visitor-info{flex:1;min-width:0}
@@ -80,20 +94,25 @@ select.form-control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http:
 .visitor-meta{font-size:12px;color:var(--text2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .visitor-time{font-size:11px;color:var(--text3);margin-top:3px;font-family:'DM Mono',monospace}
 .visitor-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+
 .badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
 .badge-in{background:var(--green-light);color:var(--green)}
 .badge-out{background:var(--border);color:var(--text2)}
+.unit-tag{background:var(--primary-light);color:var(--primary);padding:2px 7px;border-radius:10px;font-size:10px;font-weight:600}
+
 .search-box{position:relative;margin-bottom:10px}
 .search-box input{padding-left:34px}
 .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:15px;pointer-events:none}
 .filter-row{display:flex;gap:8px;margin-bottom:12px}
 .filter-row select{flex:1;font-size:13px;padding:8px 10px}
+
 .master-list{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0;min-height:32px}
 .master-tag{background:var(--primary-light);color:var(--primary);padding:5px 10px;border-radius:20px;font-size:13px;display:flex;align-items:center;gap:5px}
 .master-tag .del{color:var(--red);cursor:pointer;font-size:16px;line-height:1;font-weight:600}
 .master-input-row{display:flex;gap:8px}
 .master-input-row .form-control{flex:1;font-size:14px;padding:9px 12px}
 .master-input-row .btn{width:auto;padding:9px 18px;font-size:14px}
+
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:flex-end;justify-content:center}
 .modal-bg.open{display:flex}
 .modal{background:white;border-radius:20px 20px 0 0;padding:20px 20px calc(20px + var(--safe-bottom));width:100%;max-height:88vh;overflow-y:auto}
@@ -104,11 +123,16 @@ select.form-control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http:
 .detail-row:last-of-type{border-bottom:none}
 .detail-label{font-size:13px;color:var(--text2)}
 .detail-val{font-size:14px;font-weight:500;text-align:right;max-width:58%}
+
 .empty-state{text-align:center;padding:50px 20px}
 .empty-icon{font-size:44px;margin-bottom:10px}
 .empty-text{font-size:14px;color:var(--text2)}
+
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#111827;color:white;padding:10px 20px;border-radius:30px;font-size:14px;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center}
 .toast.show{opacity:1}
+
+.admin-unit-card{background:white;border-radius:10px;padding:14px;margin-bottom:10px;box-shadow:var(--shadow);display:flex;justify-content:space-between;align-items:center}
+.info-box{background:var(--primary-light);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--primary);margin-bottom:12px;display:flex;gap:8px;align-items:center}
 </style>
 </head>
 <body>
@@ -117,24 +141,21 @@ select.form-control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http:
 <div class="login-wrap" id="loginScreen">
   <div class="login-card">
     <div class="login-logo">
-      <div style="font-size:40px">🏢</div>
-      <h1>SBC Visitor Register</h1>
+      <img src="data:image/png;base64,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" alt="Sri Balaji Castings" style="width:180px;max-width:100%;margin:0 auto 12px;display:block;">
+      <h1 style="color:#1A56DB;font-size:18px">Visitor Register</h1>
       <p>Security Management System</p>
-    </div>
-    <div class="login-tabs">
-      <div class="login-tab active" onclick="setLoginType('security')" id="ltab-security">Security</div>
-      <div class="login-tab" onclick="setLoginType('admin')" id="ltab-admin">Admin</div>
     </div>
     <div class="login-error" id="loginError">Invalid username or password</div>
     <div class="form-group">
       <label class="form-label">Username</label>
-      <input type="text" class="form-control" id="loginUser" placeholder="Enter username" autocomplete="off">
+      <input type="text" class="form-control" id="loginUser" placeholder="unit1 / unit3 / unit4 / admin" autocomplete="off" autocapitalize="none">
     </div>
     <div class="form-group">
       <label class="form-label">Password</label>
       <input type="password" class="form-control" id="loginPass" placeholder="Enter password">
     </div>
     <button class="btn btn-primary" onclick="doLogin()">🔐 Login</button>
+    <div style="text-align:center;margin-top:16px;font-size:12px;color:var(--text3)">SBC Security Management v2.0</div>
   </div>
 </div>
 
@@ -142,18 +163,19 @@ select.form-control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http:
 <div class="app" id="appShell">
   <div class="header">
     <div class="header-top">
-      <div>
-        <h1>🏢 SBC Visitor Register</h1>
+      <div style="flex:1;min-width:0">
+        <h1>🏢 Sri Balaji Castings</h1>
         <div class="header-sub" id="headerDate"></div>
       </div>
       <div class="header-right">
+        <div class="unit-chip" id="unitChip"></div>
         <div class="header-badge" id="liveCount">0 Inside</div>
-        <button class="logout-btn" onclick="doLogout()">Logout</button>
+        <button class="logout-btn" onclick="doLogout()">Exit</button>
       </div>
     </div>
   </div>
 
-  <!-- CHECK-IN SCREEN -->
+  <!-- CHECK-IN -->
   <div class="screen active" id="screen-checkin">
     <div class="stats-grid">
       <div class="stat-card stat-total"><div class="stat-num" id="statTotal">0</div><div class="stat-label">Today Total</div></div>
@@ -164,8 +186,8 @@ select.form-control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http:
       <div class="card-title">📋 New Visitor Entry</div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Unit *</label>
-          <select class="form-control" id="fUnit" onchange="onUnitChange()"><option value="">Select</option></select>
+          <label class="form-label">Unit</label>
+          <input type="text" class="form-control readonly-field" id="fUnit" readonly>
         </div>
         <div class="form-group">
           <label class="form-label">Date *</label>
@@ -174,12 +196,12 @@ select.form-control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http:
       </div>
       <div class="form-group">
         <label class="form-label">SBC Staff Name *</label>
-        <select class="form-control" id="fStaff" onchange="onStaffChange()"><option value="">Select Unit First</option></select>
+        <select class="form-control" id="fStaff" onchange="onStaffChange()"><option value="">Select Staff</option></select>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Department</label>
-          <input type="text" class="form-control" id="fDept" placeholder="Auto-filled" readonly style="background:#f9f9f9">
+          <input type="text" class="form-control readonly-field" id="fDept" placeholder="Auto-filled" readonly>
         </div>
         <div class="form-group">
           <label class="form-label">Purpose *</label>
@@ -215,7 +237,7 @@ select.form-control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http:
     </div>
   </div>
 
-  <!-- LOG SCREEN -->
+  <!-- LOG -->
   <div class="screen" id="screen-log">
     <div class="search-box">
       <span class="search-icon">🔍</span>
@@ -237,7 +259,7 @@ select.form-control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http:
     <div id="visitorLog"></div>
   </div>
 
-  <!-- MASTERS SCREEN -->
+  <!-- MASTERS (Admin only) -->
   <div class="screen" id="screen-masters">
     <div id="mastersContent"></div>
   </div>
@@ -267,11 +289,14 @@ select.form-control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http:
 <div class="toast" id="toast"></div>
 
 <script>
+// ---- STORAGE ----
 function load(k,def){try{const v=localStorage.getItem(k);return v!==null?JSON.parse(v):def}catch(e){return def}}
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
 
-let PASS={sec:load('sbc_pass_sec','sbc@123'),admin:load('sbc_pass_admin','sbc@admin')};
+// ---- PASSWORDS ----
+let PASS=load('sbc_passwords',{unit1:'sbc@unit1',unit3:'sbc@unit3',unit4:'sbc@unit4',admin:'sbc@admin'});
 
+// ---- MASTERS ----
 const DEFAULT_MASTERS={
   units:['Unit 1','Unit 3','Unit 4'],
   staff:['Poornachandran','Hari','Ravi Kumar'],
@@ -294,22 +319,22 @@ else{
 let visitors=load('sbc_visitors',[]);
 let photoDataUrl=null;
 let currentUser=load('sbc_session',null);
-let loginType='security';
 
-function setLoginType(t){
-  loginType=t;
-  document.getElementById('ltab-security').classList.toggle('active',t==='security');
-  document.getElementById('ltab-admin').classList.toggle('active',t==='admin');
-}
+// ---- LOGIN ----
+// username → unit mapping
+const UNIT_MAP={'unit1':'Unit 1','unit3':'Unit 3','unit4':'Unit 4','admin':'ALL'};
 
 function doLogin(){
-  const u=document.getElementById('loginUser').value.trim();
+  const u=document.getElementById('loginUser').value.trim().toLowerCase();
   const p=document.getElementById('loginPass').value.trim();
   const errEl=document.getElementById('loginError');
-  const valid=(loginType==='security'&&u==='security'&&p===PASS.sec)||(loginType==='admin'&&u==='admin'&&p===PASS.admin);
-  if(!valid){errEl.style.display='block';return;}
+  const validUnits=['unit1','unit3','unit4'];
+  let role=null,unit=null;
+  if(u==='admin'&&p===PASS.admin){role='admin';unit='ALL';}
+  else if(validUnits.includes(u)&&p===PASS[u]){role='security';unit=UNIT_MAP[u];}
+  if(!role){errEl.style.display='block';return;}
   errEl.style.display='none';
-  currentUser={username:u,role:loginType};
+  currentUser={username:u,role,unit};
   save('sbc_session',currentUser);
   initApp();
 }
@@ -325,27 +350,42 @@ function doLogout(){
 
 document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 
+// ---- INIT ----
 function initApp(){
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('appShell').style.display='block';
   document.getElementById('fDate').value=todayStr();
   document.getElementById('headerDate').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
+
   const isAdmin=currentUser.role==='admin';
+  const unitLabel=isAdmin?'👑 Admin':currentUser.unit;
+  document.getElementById('unitChip').textContent=unitLabel;
   document.getElementById('tab-masters').style.display=isAdmin?'flex':'none';
   document.getElementById('exportBtn').style.display=isAdmin?'block':'none';
-  populateDropdowns();updateStats();renderLog();
+
+  // Set unit field (readonly for security)
+  if(!isAdmin){
+    document.getElementById('fUnit').value=currentUser.unit;
+    loadUnitStaff(currentUser.unit);
+  }
+
+  fillSelect('fPurpose',masters.purposes);
+  updateStats();
+  renderLog();
   if(isAdmin)renderMastersScreen();
   if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 }
 
 window.onload=()=>{if(currentUser&&currentUser.role)initApp();};
 
+// ---- UTILS ----
 function todayStr(){return new Date().toISOString().split('T')[0];}
 function timeStr(){return new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});}
 function weekStart(){const d=new Date();d.setDate(d.getDate()-d.getDay());return d.toISOString().split('T')[0];}
 function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
 
+// ---- TABS ----
 function switchTab(tab){
   ['checkin','log','masters'].forEach(t=>{
     document.getElementById('tab-'+t)?.classList.toggle('active',t===tab);
@@ -355,26 +395,17 @@ function switchTab(tab){
   if(tab==='masters')renderMastersScreen();
 }
 
-function populateDropdowns(){
-  fillSelect('fUnit',masters.units);
-  fillSelect('fPurpose',masters.purposes);
-}
-
-function fillSelect(id,arr){
+// ---- DROPDOWNS ----
+function fillSelect(id,arr,placeholder='Select...'){
   const el=document.getElementById(id);if(!el)return;
   const cur=el.value;
-  el.innerHTML='<option value="">Select...</option>'+arr.map(v=>`<option value="${escHtml(v)}">${escHtml(v)}</option>`).join('');
+  el.innerHTML=`<option value="">${placeholder}</option>`+arr.map(v=>`<option value="${escHtml(v)}">${escHtml(v)}</option>`).join('');
   if(cur)el.value=cur;
 }
 
-function onUnitChange(){
-  const unit=document.getElementById('fUnit').value;
+function loadUnitStaff(unit){
   const staffForUnit=masters.staff.filter(s=>(masters.staffUnit||{})[s]===unit);
-  const el=document.getElementById('fStaff');
-  el.innerHTML=unit
-    ?'<option value="">Select Staff</option>'+staffForUnit.map(s=>`<option value="${escHtml(s)}">${escHtml(s)}</option>`).join('')
-    :'<option value="">Select Unit First</option>';
-  document.getElementById('fDept').value='';
+  fillSelect('fStaff',staffForUnit,'Select Staff');
 }
 
 function onStaffChange(){
@@ -382,6 +413,7 @@ function onStaffChange(){
   document.getElementById('fDept').value=(masters.staffDept||{})[name]||'';
 }
 
+// ---- PHOTO ----
 function handlePhoto(e){
   const file=e.target.files[0];if(!file)return;
   const reader=new FileReader();
@@ -403,21 +435,34 @@ function handlePhoto(e){
   };reader.readAsDataURL(file);
 }
 
+// ---- SUBMIT ----
 function submitEntry(){
-  const vals={unit:document.getElementById('fUnit').value,date:document.getElementById('fDate').value,name:document.getElementById('fVisitorName').value.trim(),phone:document.getElementById('fPhone').value.trim(),vendor:document.getElementById('fVendor').value.trim(),staff:document.getElementById('fStaff').value,dept:document.getElementById('fDept').value,purpose:document.getElementById('fPurpose').value};
+  const vals={
+    unit:document.getElementById('fUnit').value,
+    date:document.getElementById('fDate').value,
+    name:document.getElementById('fVisitorName').value.trim(),
+    phone:document.getElementById('fPhone').value.trim(),
+    vendor:document.getElementById('fVendor').value.trim(),
+    staff:document.getElementById('fStaff').value,
+    dept:document.getElementById('fDept').value,
+    purpose:document.getElementById('fPurpose').value
+  };
   if(['unit','date','name','phone','vendor','staff','purpose'].some(k=>!vals[k])){showToast('⚠️ Please fill all required fields!');return;}
   const entry={id:Date.now(),...vals,photo:photoDataUrl||null,inTime:timeStr(),outTime:null,status:'IN'};
-  visitors.unshift(entry);save('sbc_visitors',visitors);
-  updateStats();showToast('✅ Visitor added!');
-  setTimeout(()=>openWhatsApp(entry),500);resetForm();
+  visitors.unshift(entry);
+  save('sbc_visitors',visitors);
+  updateStats();
+  showToast('✅ Visitor added!');
+  setTimeout(()=>openWhatsApp(entry),500);
+  resetForm();
 }
 
 function resetForm(){
-  ['fUnit','fStaff','fPurpose'].forEach(id=>document.getElementById(id).value='');
   ['fVisitorName','fPhone','fVendor'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('fDept').value='';
   document.getElementById('fDate').value=todayStr();
-  document.getElementById('fStaff').innerHTML='<option value="">Select Unit First</option>';
+  document.getElementById('fStaff').value='';
+  document.getElementById('fPurpose').value='';
   photoDataUrl=null;
   document.getElementById('photoPreview').style.display='none';
   document.getElementById('photoPlaceholder').style.display='block';
@@ -427,6 +472,7 @@ function resetForm(){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
+// ---- WHATSAPP ----
 function openWhatsApp(entry){
   const phone=(masters.staffPhones||{})[entry.staff]||'';
   const photoNote=entry.photo?'📸 Visitor photo captured at security gate.':'📸 No photo captured.';
@@ -435,21 +481,27 @@ function openWhatsApp(entry){
   window.open(url,'_blank');
 }
 
+// ---- STATS ----
 function updateStats(){
   const today=todayStr();
-  const todayV=visitors.filter(v=>v.date===today);
-  document.getElementById('statTotal').textContent=todayV.length;
-  document.getElementById('statIn').textContent=todayV.filter(v=>v.status==='IN').length;
-  document.getElementById('statOut').textContent=todayV.filter(v=>v.status==='OUT').length;
-  document.getElementById('liveCount').textContent=visitors.filter(v=>v.status==='IN').length+' Inside';
+  const isAdmin=currentUser?.role==='admin';
+  const filtered=visitors.filter(v=>v.date===today&&(isAdmin||v.unit===currentUser.unit));
+  const allFiltered=visitors.filter(v=>isAdmin||v.unit===currentUser.unit);
+  document.getElementById('statTotal').textContent=filtered.length;
+  document.getElementById('statIn').textContent=filtered.filter(v=>v.status==='IN').length;
+  document.getElementById('statOut').textContent=filtered.filter(v=>v.status==='OUT').length;
+  document.getElementById('liveCount').textContent=allFiltered.filter(v=>v.status==='IN').length+' Inside';
 }
 
+// ---- LOG ----
 function renderLog(){
   const q=(document.getElementById('searchInput')?.value||'').toLowerCase();
   const sf=document.getElementById('filterStatus')?.value||'';
   const df=document.getElementById('filterDate')?.value||'today';
   const today=todayStr(),week=weekStart();
+  const isAdmin=currentUser?.role==='admin';
   let list=visitors.filter(v=>{
+    if(!isAdmin&&v.unit!==currentUser.unit)return false; // unit isolation
     if(df==='today'&&v.date!==today)return false;
     if(df==='week'&&v.date<week)return false;
     if(sf&&v.status!==sf)return false;
@@ -464,21 +516,25 @@ function renderLog(){
       <div class="visitor-name">${escHtml(v.name)}</div>
       <div class="visitor-meta">${escHtml(v.vendor)} · ${escHtml(v.purpose)}</div>
       <div class="visitor-meta">${escHtml(v.staff)} · ${escHtml(v.dept)}</div>
-      <div class="visitor-time">IN: ${v.inTime}${v.outTime?' · OUT: '+v.outTime:''} · ${escHtml(v.unit)}</div>
+      <div class="visitor-time">IN: ${v.inTime}${v.outTime?' · OUT: '+v.outTime:''} ${isAdmin?`· <span class="unit-tag">${escHtml(v.unit)}</span>`:''}</div>
     </div>
     <div class="visitor-right"><span class="badge ${v.status==='IN'?'badge-in':'badge-out'}">${v.status}</span></div>
   </div>`).join('');
 }
 
+// ---- DETAIL MODAL ----
 function openDetail(id){
   const v=visitors.find(x=>x.id===id);if(!v)return;
+  // Security can only see their unit's visitors
+  if(currentUser.role!=='admin'&&v.unit!==currentUser.unit){showToast('Access denied');return;}
   document.getElementById('modalTitle').textContent=v.name;
   document.getElementById('modalContent').innerHTML=`
     ${v.photo?`<img src="${v.photo}" class="modal-photo" alt="">`:''}
     ${row('Status',`<span class="badge ${v.status==='IN'?'badge-in':'badge-out'}">${v.status}</span>`)}
-    ${row('Unit',v.unit)}${row('Date',v.date)}${row('Phone',v.phone)}${row('Company',v.vendor)}
-    ${row('Host Staff',v.staff)}${row('Department',v.dept)}${row('Purpose',v.purpose)}${row('IN Time',v.inTime)}
-    ${v.outTime?row('OUT Time',v.outTime):''}`;
+    ${row('Unit',v.unit)}${row('Date',v.date)}${row('Phone',v.phone)}
+    ${row('Company',v.vendor)}${row('Host Staff',v.staff)}
+    ${row('Department',v.dept)}${row('Purpose',v.purpose)}
+    ${row('IN Time',v.inTime)}${v.outTime?row('OUT Time',v.outTime):''}`;
   document.getElementById('modalActions').innerHTML=`
     ${v.status==='IN'?`<button class="btn btn-danger" onclick="markOut(${v.id})">🚪 Mark as OUT</button>`:''}
     <button class="btn btn-whatsapp" onclick='openWhatsApp(${JSON.stringify(v).replace(/'/g,"&#39;")})'>
@@ -500,7 +556,9 @@ function markOut(id){
 function closeModal(){document.getElementById('detailModal').classList.remove('open');}
 function handleModalClick(e){if(e.target===document.getElementById('detailModal'))closeModal();}
 
+// ---- EXPORT (Admin only) ----
 function exportCSV(){
+  if(currentUser.role!=='admin'){showToast('Admin only!');return;}
   const df=document.getElementById('filterDate')?.value||'all';
   const today=todayStr(),week=weekStart();
   let list=visitors.filter(v=>{
@@ -513,32 +571,50 @@ function exportCSV(){
   const rows=list.map(v=>[v.date,v.name,v.phone,v.vendor,v.unit,v.staff,v.dept,v.purpose,v.inTime,v.outTime||'',v.status].map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`).join(','));
   const a=document.createElement('a');
   a.href='data:text/csv;charset=utf-8,'+encodeURIComponent([headers.join(','),...rows].join('\n'));
-  a.download=`SBC_Visitors_${today}.csv`;a.click();
+  a.download=`SBC_All_Visitors_${today}.csv`;a.click();
   showToast('📊 CSV exported!');
 }
 
+// ---- MASTERS SCREEN (Admin only) ----
 function renderMastersScreen(){
   if(currentUser?.role!=='admin'){document.getElementById('mastersContent').innerHTML='<div class="empty-state"><div class="empty-icon">🔒</div><div class="empty-text">Admin access only</div></div>';return;}
   document.getElementById('mastersContent').innerHTML=`
-    <div class="card" style="background:var(--primary-light);border:1.5px solid #93c5fd">
-      <div style="display:flex;align-items:center;gap:8px"><span style="font-size:20px">👑</span><div><div style="font-weight:600;font-size:14px">Admin Dashboard</div><div style="font-size:12px;color:var(--text2)">Manage masters & settings</div></div></div>
+    <div class="card" style="background:var(--primary);color:white">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:24px">👑</span>
+        <div><div style="font-weight:600;font-size:15px">Admin Dashboard</div><div style="font-size:12px;opacity:.8">Full access to all units & settings</div></div>
+      </div>
     </div>
-    <div class="card"><div class="card-title">🏭 Unit Master</div><div class="master-list" id="masterUnit"></div><div class="master-input-row"><input type="text" class="form-control" id="inputUnit" placeholder="Add unit"><button class="btn btn-primary btn-sm" onclick="addMaster('units','inputUnit','masterUnit')">+ Add</button></div></div>
-    <div class="card"><div class="card-title">👤 SBC Staff</div><div class="master-list" id="masterStaff"></div><div class="master-input-row"><input type="text" class="form-control" id="inputStaff" placeholder="Add staff name"><button class="btn btn-primary btn-sm" onclick="addMaster('staff','inputStaff','masterStaff')">+ Add</button></div></div>
-    <div class="card"><div class="card-title">🏬 Departments</div><div class="master-list" id="masterDept"></div><div class="master-input-row"><input type="text" class="form-control" id="inputDept" placeholder="Add department"><button class="btn btn-primary btn-sm" onclick="addMaster('departments','inputDept','masterDept')">+ Add</button></div></div>
-    <div class="card"><div class="card-title">📌 Purpose of Visit</div><div class="master-list" id="masterPurpose"></div><div class="master-input-row"><input type="text" class="form-control" id="inputPurpose" placeholder="Add purpose"><button class="btn btn-primary btn-sm" onclick="addMaster('purposes','inputPurpose','masterPurpose')">+ Add</button></div></div>
+
+    <div class="card"><div class="card-title">🏭 Unit Master</div><div class="master-list" id="masterUnit"></div>
+      <div class="master-input-row"><input type="text" class="form-control" id="inputUnit" placeholder="Add unit"><button class="btn btn-primary btn-sm" onclick="addMaster('units','inputUnit','masterUnit')">+ Add</button></div></div>
+
+    <div class="card"><div class="card-title">👤 SBC Staff</div><div class="master-list" id="masterStaff"></div>
+      <div class="master-input-row"><input type="text" class="form-control" id="inputStaff" placeholder="Add staff name"><button class="btn btn-primary btn-sm" onclick="addMaster('staff','inputStaff','masterStaff')">+ Add</button></div></div>
+
+    <div class="card"><div class="card-title">🏬 Departments</div><div class="master-list" id="masterDept"></div>
+      <div class="master-input-row"><input type="text" class="form-control" id="inputDept" placeholder="Add department"><button class="btn btn-primary btn-sm" onclick="addMaster('departments','inputDept','masterDept')">+ Add</button></div></div>
+
+    <div class="card"><div class="card-title">📌 Purpose of Visit</div><div class="master-list" id="masterPurpose"></div>
+      <div class="master-input-row"><input type="text" class="form-control" id="inputPurpose" placeholder="Add purpose"><button class="btn btn-primary btn-sm" onclick="addMaster('purposes','inputPurpose','masterPurpose')">+ Add</button></div></div>
+
     <div class="card" style="border:1.5px solid #FDE68A;background:#FFFBEB">
       <div class="card-title">📱 Staff — Unit, Dept & WhatsApp</div>
-      <p style="font-size:12px;color:#92400E;margin-bottom:12px">Format: 91XXXXXXXXXX</p>
+      <p style="font-size:12px;color:#92400E;margin-bottom:12px">Format: 91XXXXXXXXXX (India country code)</p>
       <div id="staffDetailEditor"></div>
     </div>
+
     <div class="card">
       <div class="card-title">🔐 Change Passwords</div>
-      <div class="form-group"><label class="form-label">Security Password</label><input type="password" class="form-control" id="newSecPass" placeholder="New password"></div>
-      <div class="form-group"><label class="form-label">Admin Password</label><input type="password" class="form-control" id="newAdminPass" placeholder="New password"></div>
+      <div class="info-box">ℹ️ Unit logins: unit1, unit3, unit4 · Admin: admin</div>
+      <div class="form-group"><label class="form-label">Unit 1 Password</label><input type="password" class="form-control" id="passUnit1" placeholder="Current: sbc@unit1"></div>
+      <div class="form-group"><label class="form-label">Unit 3 Password</label><input type="password" class="form-control" id="passUnit3" placeholder="Current: sbc@unit3"></div>
+      <div class="form-group"><label class="form-label">Unit 4 Password</label><input type="password" class="form-control" id="passUnit4" placeholder="Current: sbc@unit4"></div>
+      <div class="form-group"><label class="form-label">Admin Password</label><input type="password" class="form-control" id="passAdmin" placeholder="Current: sbc@admin"></div>
       <button class="btn btn-outline btn-sm" onclick="changePasswords()">💾 Save Passwords</button>
     </div>
     <div style="height:20px"></div>`;
+
   renderMasterList('units','masterUnit');
   renderMasterList('staff','masterStaff');
   renderMasterList('departments','masterDept');
@@ -555,13 +631,13 @@ function addMaster(key,inputId,elId){
   const v=document.getElementById(inputId)?.value.trim();if(!v)return;
   if(masters[key].includes(v)){showToast('Already exists!');return;}
   masters[key].push(v);saveMasters();
-  renderMasterList(key,elId);populateDropdowns();renderStaffDetails();
+  renderMasterList(key,elId);renderStaffDetails();
   document.getElementById(inputId).value='';
 }
 
 function delMaster(key,idx){
   if(!confirm('Delete?'))return;
-  masters[key].splice(idx,1);saveMasters();renderMastersScreen();populateDropdowns();
+  masters[key].splice(idx,1);saveMasters();renderMastersScreen();
 }
 
 function saveMasters(){save('sbc_masters',masters);}
@@ -601,13 +677,14 @@ function setStaffField(name,field,val){
 }
 
 function changePasswords(){
-  const sp=document.getElementById('newSecPass')?.value.trim();
-  const ap=document.getElementById('newAdminPass')?.value.trim();
-  if(sp){PASS.sec=sp;save('sbc_pass_sec',sp);}
-  if(ap){PASS.admin=ap;save('sbc_pass_admin',ap);}
-  if(sp||ap)showToast('✅ Passwords updated!');
-  if(document.getElementById('newSecPass'))document.getElementById('newSecPass').value='';
-  if(document.getElementById('newAdminPass'))document.getElementById('newAdminPass').value='';
+  const fields={unit1:'passUnit1',unit3:'passUnit3',unit4:'passUnit4',admin:'passAdmin'};
+  let changed=false;
+  Object.entries(fields).forEach(([key,elId])=>{
+    const v=document.getElementById(elId)?.value.trim();
+    if(v){PASS[key]=v;changed=true;document.getElementById(elId).value='';}
+  });
+  if(changed){save('sbc_passwords',PASS);showToast('✅ Passwords updated!');}
+  else showToast('Enter a password to change');
 }
 </script>
 </body>
