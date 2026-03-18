@@ -209,7 +209,7 @@
     </div>
     <div class="form-group">
       <label class="form-label">SBC Staff Name *</label>
-      <select class="form-control" id="fStaff"><option value="">Select Staff</option></select>
+      <select class="form-control" id="fStaff" onchange="onStaffChange()"><option value="">Select Staff</option></select>
     </div>
     <div class="form-row">
       <div class="form-group">
@@ -345,13 +345,37 @@
 function load(k, def) { try { return JSON.parse(localStorage.getItem(k)) || def; } catch(e) { return def; } }
 function save(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
 
-let masters = load('sbc_masters', {
-  units: ['Unit 1', 'Unit 2', 'Unit 3'],
-  staff: ['Ramesh Kumar', 'Priya S', 'Arun M'],
-  departments: ['Production', 'Quality', 'Admin', 'HR', 'Logistics'],
+const DEFAULT_MASTERS = {
+  units: ['Unit 1', 'Unit 3', 'Unit 4'],
+  staff: ['Poornachandran', 'Hari', 'Ravi Kumar'],
+  departments: ['SAP', 'Admin', 'Production', 'Quality', 'HR', 'Logistics'],
   purposes: ['Delivery', 'Meeting', 'Repair & Maintenance', 'Interview', 'Audit', 'Others'],
-  staffPhones: {}
-});
+  staffPhones: {
+    'Poornachandran': '919884717604',
+    'Ravi Kumar': '918939618014',
+    'Hari': '919176627688'
+  },
+  staffDept: {
+    'Poornachandran': 'SAP',
+    'Ravi Kumar': 'Admin',
+    'Hari': 'Admin'
+  },
+  staffUnit: {
+    'Poornachandran': 'Unit 1',
+    'Ravi Kumar': 'Unit 4',
+    'Hari': 'Unit 3'
+  }
+};
+let masters = load('sbc_masters', null);
+if(!masters) {
+  masters = JSON.parse(JSON.stringify(DEFAULT_MASTERS));
+  save('sbc_masters', masters);
+} else {
+  if(!masters.staffDept) masters.staffDept = DEFAULT_MASTERS.staffDept;
+  if(!masters.staffUnit) masters.staffUnit = DEFAULT_MASTERS.staffUnit;
+  if(!masters.staffPhones || Object.keys(masters.staffPhones).length === 0) masters.staffPhones = DEFAULT_MASTERS.staffPhones;
+  save('sbc_masters', masters);
+}
 let visitors = load('sbc_visitors', []);
 let photoDataUrl = null;
 let deferredPrompt = null;
@@ -450,6 +474,15 @@ function populateDropdowns() {
   fillSelect('fStaff', masters.staff);
   fillSelect('fDept', masters.departments);
   fillSelect('fPurpose', masters.purposes);
+}
+
+function onStaffChange() {
+  const name = document.getElementById('fStaff').value;
+  if(!name) return;
+  const dept = (masters.staffDept||{})[name];
+  const unit = (masters.staffUnit||{})[name];
+  if(dept) document.getElementById('fDept').value = dept;
+  if(unit) document.getElementById('fUnit').value = unit;
 }
 
 function fillSelect(id, arr) {
