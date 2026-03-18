@@ -515,7 +515,7 @@ function openWhatsApp(entry){
 function updateStats(){
   const today=todayStr();
   const isAdmin=currentUser?.role==='admin';
-  const filtered=visitors.filter(v=>v.date===today&&(isAdmin||v.unit===currentUser.unit));
+  const filtered=visitors.filter(v=>normalizeDate(v.date)===today&&(isAdmin||v.unit===currentUser.unit));
   const allFiltered=visitors.filter(v=>isAdmin||v.unit===currentUser.unit);
   document.getElementById('statTotal').textContent=filtered.length;
   document.getElementById('statIn').textContent=filtered.filter(v=>v.status==='IN').length;
@@ -544,6 +544,16 @@ async function syncFromSheets(){
 }
 
 // ---- LOG ----
+function normalizeDate(d){
+  if(!d) return '';
+  // Handle Date objects or various string formats from Google Sheets
+  try {
+    const dt = new Date(d);
+    if(!isNaN(dt)) return dt.toISOString().split('T')[0];
+  } catch(e){}
+  return String(d).split('T')[0].split(' ')[0];
+}
+
 function renderLog(){
   const q=(document.getElementById('searchInput')?.value||'').toLowerCase();
   const sf=document.getElementById('filterStatus')?.value||'';
@@ -551,9 +561,10 @@ function renderLog(){
   const today=todayStr(),week=weekStart();
   const isAdmin=currentUser?.role==='admin';
   let list=visitors.filter(v=>{
-    if(!isAdmin&&v.unit!==currentUser.unit)return false; // unit isolation
-    if(df==='today'&&v.date!==today)return false;
-    if(df==='week'&&v.date<week)return false;
+    const vdate=normalizeDate(v.date);
+    if(!isAdmin&&v.unit!==currentUser.unit)return false;
+    if(df==='today'&&vdate!==today)return false;
+    if(df==='week'&&vdate<week)return false;
     if(sf&&v.status!==sf)return false;
     if(q&&!`${v.name} ${v.vendor} ${v.staff} ${v.dept} ${v.purpose} ${v.unit}`.toLowerCase().includes(q))return false;
     return true;
@@ -566,9 +577,9 @@ function renderLog(){
       <div class="visitor-name">${escHtml(v.name)}</div>
       <div class="visitor-meta">${escHtml(v.vendor)} · ${escHtml(v.purpose)}</div>
       <div class="visitor-meta">${escHtml(v.staff)} · ${escHtml(v.dept)}</div>
-      <div class="visitor-time">IN: ${v.inTime}${v.outTime?' · OUT: '+v.outTime:''} ${isAdmin?`· <span class="unit-tag">${escHtml(v.unit)}</span>`:''}</div>
+      <div class="visitor-time">IN: ${v.inTime||''}${v.outTime?' · OUT: '+v.outTime:''} ${isAdmin?`· <span class="unit-tag">${escHtml(v.unit)}</span>`:''}</div>
     </div>
-    <div class="visitor-right"><span class="badge ${v.status==='IN'?'badge-in':'badge-out'}">${v.status}</span></div>
+    <div class="visitor-right"><span class="badge ${v.status==='IN'?'badge-in':'badge-out'}">${v.status||'IN'}</span></div>
   </div>`).join('');
 }
 
