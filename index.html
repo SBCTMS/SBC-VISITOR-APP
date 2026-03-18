@@ -13,700 +13,601 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #F4F6F9;
-    --card: #FFFFFF;
-    --primary: #1A56DB;
-    --primary-light: #EBF2FF;
-    --primary-dark: #1240A8;
-    --green: #057A55;
-    --green-light: #DEF7EC;
-    --red: #C81E1E;
-    --red-light: #FDE8E8;
-    --amber: #92400E;
-    --amber-light: #FEF3C7;
-    --text: #111827;
-    --text2: #6B7280;
-    --text3: #9CA3AF;
-    --border: #E5E7EB;
-    --radius: 12px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
-    --safe-bottom: env(safe-area-inset-bottom, 0px);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: calc(60px + var(--safe-bottom)); }
-
-  .header { background: var(--primary); color: white; padding: 48px 20px 14px; position: sticky; top: 0; z-index: 100; }
-  .header-top { display: flex; justify-content: space-between; align-items: center; }
-  .header h1 { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
-  .header-sub { font-size: 12px; opacity: 0.8; margin-top: 2px; }
-  .header-badge { background: rgba(255,255,255,0.2); border-radius: 20px; padding: 4px 10px; font-size: 12px; font-weight: 500; white-space: nowrap; }
-
-  .bottom-tabs { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid var(--border); display: flex; z-index: 100; padding-bottom: var(--safe-bottom); }
-  .btab { flex: 1; padding: 10px 4px 8px; text-align: center; cursor: pointer; transition: all 0.2s; border: none; background: none; }
-  .btab-icon { font-size: 22px; display: block; }
-  .btab-label { font-size: 10px; font-weight: 500; color: var(--text3); margin-top: 2px; display: block; }
-  .btab.active .btab-label { color: var(--primary); }
-  .btab.active .btab-icon { transform: scale(1.1); }
-
-  .screen { display: none; padding: 14px 14px 10px; }
-  .screen.active { display: block; }
-
-  .card { background: var(--card); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow); }
-  .card-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-
-  .form-group { margin-bottom: 13px; }
-  .form-label { font-size: 11px; font-weight: 600; color: var(--text2); margin-bottom: 5px; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
-  .form-control { width: 100%; padding: 11px 13px; border: 1.5px solid var(--border); border-radius: 9px; font-size: 15px; font-family: 'DM Sans', sans-serif; color: var(--text); background: white; appearance: none; -webkit-appearance: none; outline: none; transition: border-color 0.2s; }
-  .form-control:focus { border-color: var(--primary); }
-  select.form-control { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
-
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-  .photo-box { border: 2px dashed var(--border); border-radius: 10px; padding: 18px; text-align: center; cursor: pointer; transition: all 0.2s; background: #FAFAFA; position: relative; }
-  .photo-box.has-photo { padding: 0; border: none; }
-  .photo-box img { width: 100%; max-height: 180px; object-fit: cover; border-radius: 10px; display: block; }
-  .photo-change-btn { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 6px; padding: 5px 10px; font-size: 12px; cursor: pointer; }
-  .photo-icon { font-size: 28px; margin-bottom: 6px; }
-  .photo-text { font-size: 13px; color: var(--text2); }
-  #photoInput { display: none; }
-
-  .btn { width: 100%; padding: 14px; border-radius: 10px; border: none; font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 8px; }
-  .btn:active { transform: scale(0.97); }
-  .btn-primary { background: var(--primary); color: white; }
-  .btn-primary:active { background: var(--primary-dark); }
-  .btn-success { background: var(--green); color: white; }
-  .btn-danger { background: var(--red); color: white; }
-  .btn-outline { background: white; color: var(--primary); border: 1.5px solid var(--primary); }
-  .btn-sm { padding: 8px 14px; font-size: 13px; border-radius: 8px; width: auto; }
-  .btn-whatsapp { background: #25D366; color: white; margin-top: 8px; }
-  .btn-export { background: var(--amber-light); color: var(--amber); margin-bottom: 8px; }
-
-  .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 9px; margin-bottom: 14px; }
-  .stat-card { background: white; border-radius: 10px; padding: 12px 8px; text-align: center; box-shadow: var(--shadow); }
-  .stat-num { font-size: 26px; font-weight: 600; font-family: 'DM Mono', monospace; line-height: 1; }
-  .stat-label { font-size: 10px; color: var(--text2); margin-top: 4px; font-weight: 500; }
-  .stat-in .stat-num { color: var(--green); }
-  .stat-out .stat-num { color: var(--text2); }
-  .stat-total .stat-num { color: var(--primary); }
-
-  .visitor-item { background: white; border-radius: 10px; padding: 12px 13px; margin-bottom: 9px; box-shadow: var(--shadow); display: flex; gap: 11px; align-items: flex-start; cursor: pointer; }
-  .visitor-item:active { transform: scale(0.99); }
-  .visitor-photo { width: 46px; height: 46px; border-radius: 8px; flex-shrink: 0; overflow: hidden; background: var(--primary-light); display: flex; align-items: center; justify-content: center; font-size: 20px; }
-  .visitor-photo img { width: 100%; height: 100%; object-fit: cover; }
-  .visitor-info { flex: 1; min-width: 0; }
-  .visitor-name { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .visitor-meta { font-size: 12px; color: var(--text2); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .visitor-time { font-size: 11px; color: var(--text3); margin-top: 3px; font-family: 'DM Mono', monospace; }
-  .visitor-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
-
-  .badge { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-  .badge-in { background: var(--green-light); color: var(--green); }
-  .badge-out { background: var(--border); color: var(--text2); }
-
-  .search-wrap { display: flex; gap: 8px; margin-bottom: 10px; }
-  .search-box { flex: 1; position: relative; }
-  .search-box input { padding-left: 34px; }
-  .search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text3); font-size: 15px; pointer-events: none; }
-
-  .filter-row { display: flex; gap: 8px; margin-bottom: 12px; }
-  .filter-row select { flex: 1; font-size: 13px; padding: 8px 10px; }
-
-  .master-section { margin-bottom: 4px; }
-  .master-list { display: flex; flex-wrap: wrap; gap: 7px; margin: 8px 0; min-height: 32px; }
-  .master-tag { background: var(--primary-light); color: var(--primary); padding: 5px 10px; border-radius: 20px; font-size: 13px; display: flex; align-items: center; gap: 5px; }
-  .master-tag .del { color: var(--red); cursor: pointer; font-size: 16px; line-height: 1; font-weight: 600; }
-  .master-input-row { display: flex; gap: 8px; }
-  .master-input-row .form-control { flex: 1; font-size: 14px; padding: 9px 12px; }
-  .master-input-row .btn { width: auto; padding: 9px 18px; font-size: 14px; }
-
-  .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 200; align-items: flex-end; justify-content: center; }
-  .modal-bg.open { display: flex; }
-  .modal { background: white; border-radius: 20px 20px 0 0; padding: 20px 20px calc(20px + var(--safe-bottom)); width: 100%; max-height: 88vh; overflow-y: auto; }
-  .modal-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 16px; }
-  .modal-title { font-size: 17px; font-weight: 600; margin-bottom: 14px; }
-  .modal-photo { width: 100%; max-height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 14px; }
-  .detail-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--border); }
-  .detail-row:last-of-type { border-bottom: none; }
-  .detail-label { font-size: 13px; color: var(--text2); }
-  .detail-val { font-size: 14px; font-weight: 500; text-align: right; max-width: 58%; }
-
-  .install-banner { background: var(--primary); color: white; border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
-  .install-banner-text { flex: 1; font-size: 13px; }
-  .install-banner-text b { display: block; font-size: 14px; margin-bottom: 2px; }
-  .install-btn { background: white; color: var(--primary); border: none; border-radius: 8px; padding: 7px 14px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
-
-  .empty-state { text-align: center; padding: 50px 20px; }
-  .empty-icon { font-size: 44px; margin-bottom: 10px; }
-  .empty-text { font-size: 14px; color: var(--text2); }
-
-  .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: #111827; color: white; padding: 10px 20px; border-radius: 30px; font-size: 14px; z-index: 999; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; max-width: 90vw; text-align: center; }
-  .toast.show { opacity: 1; }
-
-  .staff-phone-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-  .staff-phone-row span { font-size: 14px; font-weight: 500; min-width: 100px; flex: 1; }
-  .staff-phone-row input { flex: 1.5; font-size: 13px; padding: 8px 10px; }
-
-  .section-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text3); margin: 16px 0 8px; }
+:root{--bg:#F4F6F9;--card:#fff;--primary:#1A56DB;--primary-light:#EBF2FF;--primary-dark:#1240A8;--green:#057A55;--green-light:#DEF7EC;--red:#C81E1E;--red-light:#FDE8E8;--amber:#92400E;--amber-light:#FEF3C7;--text:#111827;--text2:#6B7280;--text3:#9CA3AF;--border:#E5E7EB;--radius:12px;--shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);--safe-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--primary)}
+.login-card{background:white;border-radius:20px;padding:32px 24px;width:100%;max-width:360px}
+.login-logo{text-align:center;margin-bottom:24px}
+.login-logo h1{font-size:22px;font-weight:600;color:var(--primary);margin-top:8px}
+.login-logo p{font-size:13px;color:var(--text2);margin-top:4px}
+.login-tabs{display:flex;background:var(--bg);border-radius:10px;padding:3px;margin-bottom:20px}
+.login-tab{flex:1;padding:8px;text-align:center;font-size:14px;font-weight:500;border-radius:8px;cursor:pointer;color:var(--text2);transition:.2s}
+.login-tab.active{background:white;color:var(--primary);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.login-error{background:var(--red-light);color:var(--red);font-size:13px;padding:10px 12px;border-radius:8px;margin-bottom:12px;display:none}
+.app{display:none}
+.header{background:var(--primary);color:white;padding:48px 20px 14px;position:sticky;top:0;z-index:100}
+.header-top{display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:18px;font-weight:600}
+.header-sub{font-size:12px;opacity:.8;margin-top:2px}
+.header-right{display:flex;align-items:center;gap:8px}
+.header-badge{background:rgba(255,255,255,.2);border-radius:20px;padding:4px 10px;font-size:12px;font-weight:500;white-space:nowrap}
+.logout-btn{background:rgba(255,255,255,.15);border:none;color:white;border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer}
+.bottom-tabs{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:var(--safe-bottom)}
+.btab{flex:1;padding:10px 4px 8px;text-align:center;cursor:pointer;transition:.2s;border:none;background:none}
+.btab-icon{font-size:22px;display:block}
+.btab-label{font-size:10px;font-weight:500;color:var(--text3);margin-top:2px;display:block}
+.btab.active .btab-label{color:var(--primary)}
+.btab.active .btab-icon{transform:scale(1.1)}
+.screen{display:none;padding:14px 14px 80px}
+.screen.active{display:block}
+.card{background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.card-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.form-group{margin-bottom:13px}
+.form-label{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:.5px}
+.form-control{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:9px;font-size:15px;font-family:'DM Sans',sans-serif;color:var(--text);background:white;appearance:none;-webkit-appearance:none;outline:none;transition:border-color .2s}
+.form-control:focus{border-color:var(--primary)}
+select.form-control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.photo-box{border:2px dashed var(--border);border-radius:10px;padding:18px;text-align:center;cursor:pointer;background:#FAFAFA;position:relative}
+.photo-box.has-photo{padding:0;border:none}
+.photo-box img{width:100%;max-height:180px;object-fit:cover;border-radius:10px;display:block}
+.photo-change-btn{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.6);color:white;border:none;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer}
+.photo-icon{font-size:28px;margin-bottom:6px}
+.photo-text{font-size:13px;color:var(--text2)}
+.photo-optional{font-size:11px;color:var(--text3);margin-top:4px}
+#photoInput{display:none}
+.btn{width:100%;padding:14px;border-radius:10px;border:none;font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--primary);color:white}
+.btn-danger{background:var(--red);color:white}
+.btn-outline{background:white;color:var(--primary);border:1.5px solid var(--primary)}
+.btn-sm{padding:8px 14px;font-size:13px;border-radius:8px;width:auto}
+.btn-whatsapp{background:#25D366;color:white;margin-top:8px}
+.btn-export{background:var(--amber-light);color:var(--amber);margin-bottom:8px}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:14px}
+.stat-card{background:white;border-radius:10px;padding:12px 8px;text-align:center;box-shadow:var(--shadow)}
+.stat-num{font-size:26px;font-weight:600;font-family:'DM Mono',monospace;line-height:1}
+.stat-label{font-size:10px;color:var(--text2);margin-top:4px;font-weight:500}
+.stat-in .stat-num{color:var(--green)}
+.stat-out .stat-num{color:var(--text2)}
+.stat-total .stat-num{color:var(--primary)}
+.visitor-item{background:white;border-radius:10px;padding:12px 13px;margin-bottom:9px;box-shadow:var(--shadow);display:flex;gap:11px;align-items:flex-start;cursor:pointer}
+.visitor-photo{width:46px;height:46px;border-radius:8px;flex-shrink:0;overflow:hidden;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:20px}
+.visitor-photo img{width:100%;height:100%;object-fit:cover}
+.visitor-info{flex:1;min-width:0}
+.visitor-name{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.visitor-meta{font-size:12px;color:var(--text2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.visitor-time{font-size:11px;color:var(--text3);margin-top:3px;font-family:'DM Mono',monospace}
+.visitor-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-in{background:var(--green-light);color:var(--green)}
+.badge-out{background:var(--border);color:var(--text2)}
+.search-box{position:relative;margin-bottom:10px}
+.search-box input{padding-left:34px}
+.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:15px;pointer-events:none}
+.filter-row{display:flex;gap:8px;margin-bottom:12px}
+.filter-row select{flex:1;font-size:13px;padding:8px 10px}
+.master-list{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0;min-height:32px}
+.master-tag{background:var(--primary-light);color:var(--primary);padding:5px 10px;border-radius:20px;font-size:13px;display:flex;align-items:center;gap:5px}
+.master-tag .del{color:var(--red);cursor:pointer;font-size:16px;line-height:1;font-weight:600}
+.master-input-row{display:flex;gap:8px}
+.master-input-row .form-control{flex:1;font-size:14px;padding:9px 12px}
+.master-input-row .btn{width:auto;padding:9px 18px;font-size:14px}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:flex-end;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:white;border-radius:20px 20px 0 0;padding:20px 20px calc(20px + var(--safe-bottom));width:100%;max-height:88vh;overflow-y:auto}
+.modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px}
+.modal-title{font-size:17px;font-weight:600;margin-bottom:14px}
+.modal-photo{width:100%;max-height:200px;object-fit:cover;border-radius:10px;margin-bottom:14px}
+.detail-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)}
+.detail-row:last-of-type{border-bottom:none}
+.detail-label{font-size:13px;color:var(--text2)}
+.detail-val{font-size:14px;font-weight:500;text-align:right;max-width:58%}
+.empty-state{text-align:center;padding:50px 20px}
+.empty-icon{font-size:44px;margin-bottom:10px}
+.empty-text{font-size:14px;color:var(--text2)}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#111827;color:white;padding:10px 20px;border-radius:30px;font-size:14px;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center}
+.toast.show{opacity:1}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-top">
-    <div>
-      <h1>🏢 SBC Visitor Register</h1>
-      <div class="header-sub" id="headerDate"></div>
+<!-- LOGIN -->
+<div class="login-wrap" id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div style="font-size:40px">🏢</div>
+      <h1>SBC Visitor Register</h1>
+      <p>Security Management System</p>
     </div>
-    <div class="header-badge" id="liveCount">0 Inside</div>
+    <div class="login-tabs">
+      <div class="login-tab active" onclick="setLoginType('security')" id="ltab-security">Security</div>
+      <div class="login-tab" onclick="setLoginType('admin')" id="ltab-admin">Admin</div>
+    </div>
+    <div class="login-error" id="loginError">Invalid username or password</div>
+    <div class="form-group">
+      <label class="form-label">Username</label>
+      <input type="text" class="form-control" id="loginUser" placeholder="Enter username" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" class="form-control" id="loginPass" placeholder="Enter password">
+    </div>
+    <button class="btn btn-primary" onclick="doLogin()">🔐 Login</button>
   </div>
 </div>
 
-<!-- CHECK-IN SCREEN -->
-<div class="screen active" id="screen-checkin">
-  <div id="installBanner" style="display:none;">
-    <div class="install-banner">
-      <div>📲</div>
-      <div class="install-banner-text">
-        <b>Install as App</b>
-        Home screen-ல add பண்ணு
+<!-- APP -->
+<div class="app" id="appShell">
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <h1>🏢 SBC Visitor Register</h1>
+        <div class="header-sub" id="headerDate"></div>
       </div>
-      <button class="install-btn" onclick="installApp()">Install</button>
+      <div class="header-right">
+        <div class="header-badge" id="liveCount">0 Inside</div>
+        <button class="logout-btn" onclick="doLogout()">Logout</button>
+      </div>
     </div>
   </div>
 
-  <div class="stats-grid">
-    <div class="stat-card stat-total"><div class="stat-num" id="statTotal">0</div><div class="stat-label">Today Total</div></div>
-    <div class="stat-card stat-in"><div class="stat-num" id="statIn">0</div><div class="stat-label">Inside Now</div></div>
-    <div class="stat-card stat-out"><div class="stat-num" id="statOut">0</div><div class="stat-label">Checked Out</div></div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">📋 New Visitor Entry</div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Unit *</label>
-        <select class="form-control" id="fUnit"><option value="">Select</option></select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Date *</label>
-        <input type="date" class="form-control" id="fDate">
-      </div>
+  <!-- CHECK-IN SCREEN -->
+  <div class="screen active" id="screen-checkin">
+    <div class="stats-grid">
+      <div class="stat-card stat-total"><div class="stat-num" id="statTotal">0</div><div class="stat-label">Today Total</div></div>
+      <div class="stat-card stat-in"><div class="stat-num" id="statIn">0</div><div class="stat-label">Inside Now</div></div>
+      <div class="stat-card stat-out"><div class="stat-num" id="statOut">0</div><div class="stat-label">Checked Out</div></div>
     </div>
-
-    <div class="form-group">
-      <label class="form-label">Visitor Name *</label>
-      <input type="text" class="form-control" id="fVisitorName" placeholder="Full name">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Visitor Phone No *</label>
-      <input type="tel" class="form-control" id="fPhone" placeholder="9876543210" maxlength="15">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Vendor / Company *</label>
-      <input type="text" class="form-control" id="fVendor" placeholder="Visitor's company name">
-    </div>
-    <div class="form-group">
-      <label class="form-label">SBC Staff Name *</label>
-      <select class="form-control" id="fStaff" onchange="onStaffChange()"><option value="">Select Staff</option></select>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Department *</label>
-        <select class="form-control" id="fDept"><option value="">Select</option></select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Purpose *</label>
-        <select class="form-control" id="fPurpose"><option value="">Select</option></select>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Visitor Photo *</label>
-      <div class="photo-box" id="photoBox" onclick="document.getElementById('photoInput').click()">
-        <div id="photoPlaceholder">
-          <div class="photo-icon">📷</div>
-          <div class="photo-text">Tap to capture photo</div>
+    <div class="card">
+      <div class="card-title">📋 New Visitor Entry</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Unit *</label>
+          <select class="form-control" id="fUnit" onchange="onUnitChange()"><option value="">Select</option></select>
         </div>
-        <img id="photoPreview" style="display:none;" alt="Visitor">
-        <button class="photo-change-btn" id="photoChangeBtn" style="display:none;" onclick="document.getElementById('photoInput').click()">Change Photo</button>
+        <div class="form-group">
+          <label class="form-label">Date *</label>
+          <input type="date" class="form-control" id="fDate">
+        </div>
       </div>
-      <input type="file" id="photoInput" accept="image/*" capture="environment" onchange="handlePhoto(event)">
+      <div class="form-group">
+        <label class="form-label">SBC Staff Name *</label>
+        <select class="form-control" id="fStaff" onchange="onStaffChange()"><option value="">Select Unit First</option></select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Department</label>
+          <input type="text" class="form-control" id="fDept" placeholder="Auto-filled" readonly style="background:#f9f9f9">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Purpose *</label>
+          <select class="form-control" id="fPurpose"><option value="">Select</option></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Visitor Name *</label>
+        <input type="text" class="form-control" id="fVisitorName" placeholder="Full name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Visitor Phone No *</label>
+        <input type="tel" class="form-control" id="fPhone" placeholder="9876543210" maxlength="15">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Vendor / Company *</label>
+        <input type="text" class="form-control" id="fVendor" placeholder="Visitor's company name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Visitor Photo <span style="font-weight:400;color:var(--text3)">(Optional)</span></label>
+        <div class="photo-box" id="photoBox" onclick="document.getElementById('photoInput').click()">
+          <div id="photoPlaceholder">
+            <div class="photo-icon">📷</div>
+            <div class="photo-text">Tap to capture photo</div>
+            <div class="photo-optional">Photo is optional</div>
+          </div>
+          <img id="photoPreview" style="display:none" alt="Visitor">
+          <button class="photo-change-btn" id="photoChangeBtn" style="display:none" onclick="event.stopPropagation();document.getElementById('photoInput').click()">Change</button>
+        </div>
+        <input type="file" id="photoInput" accept="image/*" capture="environment" onchange="handlePhoto(event)">
+      </div>
+      <button class="btn btn-primary" onclick="submitEntry()">✅ Submit & Notify WhatsApp</button>
     </div>
-
-    <button class="btn btn-primary" onclick="submitEntry()">
-      ✅ Submit & Notify WhatsApp
-    </button>
   </div>
-</div>
 
-<!-- LOG SCREEN -->
-<div class="screen" id="screen-log">
-  <div class="search-wrap">
+  <!-- LOG SCREEN -->
+  <div class="screen" id="screen-log">
     <div class="search-box">
       <span class="search-icon">🔍</span>
       <input type="text" class="form-control" id="searchInput" placeholder="Search name, vendor, staff..." oninput="renderLog()">
     </div>
-  </div>
-  <div class="filter-row">
-    <select class="form-control" id="filterStatus" onchange="renderLog()">
-      <option value="">All Status</option>
-      <option value="IN">Inside (IN)</option>
-      <option value="OUT">Checked Out</option>
-    </select>
-    <select class="form-control" id="filterDate" onchange="renderLog()">
-      <option value="today">Today</option>
-      <option value="week">This Week</option>
-      <option value="all">All Days</option>
-    </select>
-  </div>
-  <button class="btn btn-export" onclick="exportCSV()">📊 Export to CSV</button>
-  <div id="visitorLog"></div>
-</div>
-
-<!-- MASTERS SCREEN -->
-<div class="screen" id="screen-masters">
-  <div class="card">
-    <div class="card-title">🏭 Unit Master</div>
-    <div class="master-list" id="masterUnit"></div>
-    <div class="master-input-row">
-      <input type="text" class="form-control" id="inputUnit" placeholder="Add unit">
-      <button class="btn btn-primary btn-sm" onclick="addMaster('units','inputUnit','masterUnit')">+ Add</button>
+    <div class="filter-row">
+      <select class="form-control" id="filterStatus" onchange="renderLog()">
+        <option value="">All Status</option>
+        <option value="IN">Inside (IN)</option>
+        <option value="OUT">Checked Out</option>
+      </select>
+      <select class="form-control" id="filterDate" onchange="renderLog()">
+        <option value="today">Today</option>
+        <option value="week">This Week</option>
+        <option value="all">All Days</option>
+      </select>
     </div>
+    <button class="btn btn-export" id="exportBtn" onclick="exportCSV()" style="display:none">📊 Export to CSV</button>
+    <div id="visitorLog"></div>
   </div>
 
-  <div class="card">
-    <div class="card-title">👤 SBC Staff</div>
-    <div class="master-list" id="masterStaff"></div>
-    <div class="master-input-row">
-      <input type="text" class="form-control" id="inputStaff" placeholder="Add staff name">
-      <button class="btn btn-primary btn-sm" onclick="addMaster('staff','inputStaff','masterStaff')">+ Add</button>
-    </div>
+  <!-- MASTERS SCREEN -->
+  <div class="screen" id="screen-masters">
+    <div id="mastersContent"></div>
   </div>
 
-  <div class="card">
-    <div class="card-title">🏬 Departments</div>
-    <div class="master-list" id="masterDept"></div>
-    <div class="master-input-row">
-      <input type="text" class="form-control" id="inputDept" placeholder="Add department">
-      <button class="btn btn-primary btn-sm" onclick="addMaster('departments','inputDept','masterDept')">+ Add</button>
-    </div>
+  <div class="bottom-tabs">
+    <button class="btab active" onclick="switchTab('checkin')" id="tab-checkin">
+      <span class="btab-icon">➕</span><span class="btab-label">Check-In</span>
+    </button>
+    <button class="btab" onclick="switchTab('log')" id="tab-log">
+      <span class="btab-icon">📋</span><span class="btab-label">Visitor Log</span>
+    </button>
+    <button class="btab" onclick="switchTab('masters')" id="tab-masters" style="display:none">
+      <span class="btab-icon">⚙️</span><span class="btab-label">Masters</span>
+    </button>
   </div>
-
-  <div class="card">
-    <div class="card-title">📌 Purpose of Visit</div>
-    <div class="master-list" id="masterPurpose"></div>
-    <div class="master-input-row">
-      <input type="text" class="form-control" id="inputPurpose" placeholder="Add purpose">
-      <button class="btn btn-primary btn-sm" onclick="addMaster('purposes','inputPurpose','masterPurpose')">+ Add</button>
-    </div>
-  </div>
-
-  <div class="card" style="border: 1.5px solid #FDE68A; background: #FFFBEB;">
-    <div class="card-title">📱 Staff WhatsApp Numbers</div>
-    <p style="font-size:12px;color:#92400E;margin-bottom:10px;">Country code போட்டு number add பண்ணு. Example: <b>919876543210</b> (India +91)</p>
-    <div id="staffPhoneEditor"></div>
-  </div>
-
-  <div style="height: 20px;"></div>
 </div>
 
 <!-- DETAIL MODAL -->
 <div class="modal-bg" id="detailModal" onclick="handleModalClick(event)">
-  <div class="modal" id="modalInner">
+  <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title" id="modalTitle"></div>
     <div id="modalContent"></div>
-    <div id="modalActions" style="margin-top:12px;"></div>
+    <div id="modalActions" style="margin-top:12px"></div>
   </div>
 </div>
-
-<!-- BOTTOM TABS -->
-<div class="bottom-tabs">
-  <button class="btab active" onclick="switchTab('checkin')" id="tab-checkin">
-    <span class="btab-icon">➕</span>
-    <span class="btab-label">Check-In</span>
-  </button>
-  <button class="btab" onclick="switchTab('log')" id="tab-log">
-    <span class="btab-icon">📋</span>
-    <span class="btab-label">Visitor Log</span>
-  </button>
-  <button class="btab" onclick="switchTab('masters')" id="tab-masters">
-    <span class="btab-icon">⚙️</span>
-    <span class="btab-label">Masters</span>
-  </button>
-</div>
-
 <div class="toast" id="toast"></div>
 
 <script>
-// ---- DATA ----
-function load(k, def) { try { return JSON.parse(localStorage.getItem(k)) || def; } catch(e) { return def; } }
-function save(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
+function load(k,def){try{const v=localStorage.getItem(k);return v!==null?JSON.parse(v):def}catch(e){return def}}
+function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
 
-const DEFAULT_MASTERS = {
-  units: ['Unit 1', 'Unit 3', 'Unit 4'],
-  staff: ['Poornachandran', 'Hari', 'Ravi Kumar'],
-  departments: ['SAP', 'Admin', 'Production', 'Quality', 'HR', 'Logistics'],
-  purposes: ['Delivery', 'Meeting', 'Repair & Maintenance', 'Interview', 'Audit', 'Others'],
-  staffPhones: {
-    'Poornachandran': '919884717604',
-    'Ravi Kumar': '918939618014',
-    'Hari': '919176627688'
-  },
-  staffDept: {
-    'Poornachandran': 'SAP',
-    'Ravi Kumar': 'Admin',
-    'Hari': 'Admin'
-  },
-  staffUnit: {
-    'Poornachandran': 'Unit 1',
-    'Ravi Kumar': 'Unit 4',
-    'Hari': 'Unit 3'
-  }
-};
-let masters = load('sbc_masters', null);
-if(!masters) {
-  masters = JSON.parse(JSON.stringify(DEFAULT_MASTERS));
-  save('sbc_masters', masters);
-} else {
-  if(!masters.staffDept) masters.staffDept = DEFAULT_MASTERS.staffDept;
-  if(!masters.staffUnit) masters.staffUnit = DEFAULT_MASTERS.staffUnit;
-  if(!masters.staffPhones || Object.keys(masters.staffPhones).length === 0) masters.staffPhones = DEFAULT_MASTERS.staffPhones;
-  save('sbc_masters', masters);
-}
-let visitors = load('sbc_visitors', []);
-let photoDataUrl = null;
-let deferredPrompt = null;
+let PASS={sec:load('sbc_pass_sec','sbc@123'),admin:load('sbc_pass_admin','sbc@admin')};
 
-// ---- PWA INSTALL ----
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.getElementById('installBanner').style.display = 'block';
-});
-window.addEventListener('appinstalled', () => {
-  document.getElementById('installBanner').style.display = 'none';
-  showToast('✅ App installed successfully!');
-});
-async function installApp() {
-  if(!deferredPrompt) { showToast('Open in Chrome browser to install'); return; }
-  deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-  if(outcome === 'accepted') document.getElementById('installBanner').style.display = 'none';
-  deferredPrompt = null;
-}
-
-// ---- SERVICE WORKER ----
-if('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(()=>{});
-}
-
-// ---- INIT ----
-window.onload = () => {
-  document.getElementById('fDate').value = todayStr();
-  document.getElementById('headerDate').textContent = new Date().toLocaleDateString('en-IN', {weekday:'long', day:'numeric', month:'long'});
-  renderMasters();
-  populateDropdowns();
-  updateStats();
-  renderLog();
-  renderStaffPhones();
+const DEFAULT_MASTERS={
+  units:['Unit 1','Unit 3','Unit 4'],
+  staff:['Poornachandran','Hari','Ravi Kumar'],
+  departments:['SAP','Admin','Production','Quality','HR','Logistics'],
+  purposes:['Delivery','Meeting','Repair & Maintenance','Interview','Audit','Others'],
+  staffPhones:{'Poornachandran':'919884717604','Ravi Kumar':'918939618014','Hari':'919176627688'},
+  staffDept:{'Poornachandran':'SAP','Ravi Kumar':'Admin','Hari':'Admin'},
+  staffUnit:{'Poornachandran':'Unit 1','Ravi Kumar':'Unit 4','Hari':'Unit 3'}
 };
 
-function todayStr() { return new Date().toISOString().split('T')[0]; }
-function timeStr() { return new Date().toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit', hour12:true}); }
-
-function weekStart() {
-  const d = new Date(); d.setDate(d.getDate() - d.getDay());
-  return d.toISOString().split('T')[0];
+let masters=load('sbc_masters',null);
+if(!masters){masters=JSON.parse(JSON.stringify(DEFAULT_MASTERS));save('sbc_masters',masters);}
+else{
+  if(!masters.staffDept)masters.staffDept=DEFAULT_MASTERS.staffDept;
+  if(!masters.staffUnit)masters.staffUnit=DEFAULT_MASTERS.staffUnit;
+  if(!masters.staffPhones||!Object.keys(masters.staffPhones).length)masters.staffPhones=DEFAULT_MASTERS.staffPhones;
+  save('sbc_masters',masters);
 }
 
-// ---- TABS ----
-function switchTab(tab) {
-  ['checkin','log','masters'].forEach(t => {
-    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
-    document.getElementById('screen-'+t).classList.toggle('active', t===tab);
+let visitors=load('sbc_visitors',[]);
+let photoDataUrl=null;
+let currentUser=load('sbc_session',null);
+let loginType='security';
+
+function setLoginType(t){
+  loginType=t;
+  document.getElementById('ltab-security').classList.toggle('active',t==='security');
+  document.getElementById('ltab-admin').classList.toggle('active',t==='admin');
+}
+
+function doLogin(){
+  const u=document.getElementById('loginUser').value.trim();
+  const p=document.getElementById('loginPass').value.trim();
+  const errEl=document.getElementById('loginError');
+  const valid=(loginType==='security'&&u==='security'&&p===PASS.sec)||(loginType==='admin'&&u==='admin'&&p===PASS.admin);
+  if(!valid){errEl.style.display='block';return;}
+  errEl.style.display='none';
+  currentUser={username:u,role:loginType};
+  save('sbc_session',currentUser);
+  initApp();
+}
+
+function doLogout(){
+  if(!confirm('Logout?'))return;
+  save('sbc_session',null);currentUser=null;
+  document.getElementById('appShell').style.display='none';
+  document.getElementById('loginScreen').style.display='flex';
+  document.getElementById('loginUser').value='';
+  document.getElementById('loginPass').value='';
+}
+
+document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+
+function initApp(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('appShell').style.display='block';
+  document.getElementById('fDate').value=todayStr();
+  document.getElementById('headerDate').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
+  const isAdmin=currentUser.role==='admin';
+  document.getElementById('tab-masters').style.display=isAdmin?'flex':'none';
+  document.getElementById('exportBtn').style.display=isAdmin?'block':'none';
+  populateDropdowns();updateStats();renderLog();
+  if(isAdmin)renderMastersScreen();
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+
+window.onload=()=>{if(currentUser&&currentUser.role)initApp();};
+
+function todayStr(){return new Date().toISOString().split('T')[0];}
+function timeStr(){return new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});}
+function weekStart(){const d=new Date();d.setDate(d.getDate()-d.getDay());return d.toISOString().split('T')[0];}
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+
+function switchTab(tab){
+  ['checkin','log','masters'].forEach(t=>{
+    document.getElementById('tab-'+t)?.classList.toggle('active',t===tab);
+    document.getElementById('screen-'+t)?.classList.toggle('active',t===tab);
   });
-  if(tab==='log') renderLog();
-  if(tab==='masters') { renderMasters(); renderStaffPhones(); }
+  if(tab==='log')renderLog();
+  if(tab==='masters')renderMastersScreen();
 }
 
-// ---- MASTERS ----
-function saveMasters() { save('sbc_masters', masters); }
-
-function renderMasters() {
-  ['units','staff','departments','purposes'].forEach((k,i) => {
-    const elIds = ['masterUnit','masterStaff','masterDept','masterPurpose'];
-    renderMasterList(k, elIds[i]);
-  });
-  populateDropdowns();
+function populateDropdowns(){
+  fillSelect('fUnit',masters.units);
+  fillSelect('fPurpose',masters.purposes);
 }
 
-function renderMasterList(key, elId) {
-  document.getElementById(elId).innerHTML = masters[key].map((v,i) =>
-    `<div class="master-tag">${v}<span class="del" onclick="delMaster('${key}',${i})">×</span></div>`
-  ).join('') || '<span style="font-size:13px;color:var(--text3);">No items yet</span>';
+function fillSelect(id,arr){
+  const el=document.getElementById(id);if(!el)return;
+  const cur=el.value;
+  el.innerHTML='<option value="">Select...</option>'+arr.map(v=>`<option value="${escHtml(v)}">${escHtml(v)}</option>`).join('');
+  if(cur)el.value=cur;
 }
 
-function addMaster(key, inputId, elId) {
-  const v = document.getElementById(inputId).value.trim();
-  if(!v) return;
-  if(masters[key].includes(v)) { showToast('Already exists!'); return; }
-  masters[key].push(v);
-  saveMasters();
-  renderMasterList(key, elId);
-  populateDropdowns();
-  renderStaffPhones();
-  document.getElementById(inputId).value = '';
+function onUnitChange(){
+  const unit=document.getElementById('fUnit').value;
+  const staffForUnit=masters.staff.filter(s=>(masters.staffUnit||{})[s]===unit);
+  const el=document.getElementById('fStaff');
+  el.innerHTML=unit
+    ?'<option value="">Select Staff</option>'+staffForUnit.map(s=>`<option value="${escHtml(s)}">${escHtml(s)}</option>`).join('')
+    :'<option value="">Select Unit First</option>';
+  document.getElementById('fDept').value='';
 }
 
-function delMaster(key, idx) {
-  if(!confirm('Delete this item?')) return;
-  masters[key].splice(idx, 1);
-  saveMasters();
-  renderMasters();
-  renderStaffPhones();
+function onStaffChange(){
+  const name=document.getElementById('fStaff').value;
+  document.getElementById('fDept').value=(masters.staffDept||{})[name]||'';
 }
 
-function populateDropdowns() {
-  fillSelect('fUnit', masters.units);
-  fillSelect('fStaff', masters.staff);
-  fillSelect('fDept', masters.departments);
-  fillSelect('fPurpose', masters.purposes);
-}
-
-function onStaffChange() {
-  const name = document.getElementById('fStaff').value;
-  if(!name) return;
-  const dept = (masters.staffDept||{})[name];
-  const unit = (masters.staffUnit||{})[name];
-  if(dept) document.getElementById('fDept').value = dept;
-  if(unit) document.getElementById('fUnit').value = unit;
-}
-
-function fillSelect(id, arr) {
-  const el = document.getElementById(id);
-  const cur = el.value;
-  el.innerHTML = '<option value="">Select...</option>' + arr.map(v=>`<option value="${escHtml(v)}">${escHtml(v)}</option>`).join('');
-  if(cur) el.value = cur;
-}
-
-// ---- STAFF PHONES ----
-function renderStaffPhones() {
-  const c = document.getElementById('staffPhoneEditor');
-  if(!masters.staff.length) { c.innerHTML = '<p style="font-size:13px;color:var(--text3);">Add staff in Staff Master first</p>'; return; }
-  c.innerHTML = masters.staff.map(name => {
-    const ph = (masters.staffPhones||{})[name]||'';
-    return `<div class="staff-phone-row">
-      <span>${escHtml(name)}</span>
-      <input type="tel" class="form-control" placeholder="91XXXXXXXXXX" value="${ph}"
-        oninput="setStaffPhone('${escHtml(name)}', this.value)">
-    </div>`;
-  }).join('');
-}
-
-function setStaffPhone(name, val) {
-  if(!masters.staffPhones) masters.staffPhones = {};
-  masters.staffPhones[name] = val.trim();
-  saveMasters();
-}
-
-// ---- PHOTO ----
-function handlePhoto(e) {
-  const file = e.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    // Compress photo
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const max = 600;
-      let w = img.width, h = img.height;
-      if(w > max) { h = h * max / w; w = max; }
-      if(h > max) { w = w * max / h; h = max; }
-      canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      photoDataUrl = canvas.toDataURL('image/jpeg', 0.7);
-      document.getElementById('photoPreview').src = photoDataUrl;
-      document.getElementById('photoPreview').style.display = 'block';
-      document.getElementById('photoPlaceholder').style.display = 'none';
-      document.getElementById('photoChangeBtn').style.display = 'block';
+function handlePhoto(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const img=new Image();
+    img.onload=()=>{
+      const canvas=document.createElement('canvas');
+      const max=600;let w=img.width,h=img.height;
+      if(w>max){h=h*max/w;w=max;}if(h>max){w=w*max/h;h=max;}
+      canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      photoDataUrl=canvas.toDataURL('image/jpeg',.7);
+      document.getElementById('photoPreview').src=photoDataUrl;
+      document.getElementById('photoPreview').style.display='block';
+      document.getElementById('photoPlaceholder').style.display='none';
+      document.getElementById('photoChangeBtn').style.display='block';
       document.getElementById('photoBox').classList.add('has-photo');
-    };
-    img.src = ev.target.result;
-  };
-  reader.readAsDataURL(file);
+    };img.src=ev.target.result;
+  };reader.readAsDataURL(file);
 }
 
-// ---- SUBMIT ----
-function submitEntry() {
-  const vals = {
-    unit: document.getElementById('fUnit').value,
-    date: document.getElementById('fDate').value,
-    name: document.getElementById('fVisitorName').value.trim(),
-    phone: document.getElementById('fPhone').value.trim(),
-    vendor: document.getElementById('fVendor').value.trim(),
-    staff: document.getElementById('fStaff').value,
-    dept: document.getElementById('fDept').value,
-    purpose: document.getElementById('fPurpose').value
-  };
-  if(Object.values(vals).some(v=>!v)) { showToast('⚠️ Please fill all required fields!'); return; }
-  if(!photoDataUrl) { showToast('⚠️ Please capture visitor photo!'); return; }
-
-  const entry = { id: Date.now(), ...vals, photo: photoDataUrl, inTime: timeStr(), outTime: null, status: 'IN' };
-  visitors.unshift(entry);
-  save('sbc_visitors', visitors);
-  updateStats();
-  showToast('✅ Visitor added!');
-  setTimeout(() => openWhatsApp(entry), 500);
-  resetForm();
+function submitEntry(){
+  const vals={unit:document.getElementById('fUnit').value,date:document.getElementById('fDate').value,name:document.getElementById('fVisitorName').value.trim(),phone:document.getElementById('fPhone').value.trim(),vendor:document.getElementById('fVendor').value.trim(),staff:document.getElementById('fStaff').value,dept:document.getElementById('fDept').value,purpose:document.getElementById('fPurpose').value};
+  if(['unit','date','name','phone','vendor','staff','purpose'].some(k=>!vals[k])){showToast('⚠️ Please fill all required fields!');return;}
+  const entry={id:Date.now(),...vals,photo:photoDataUrl||null,inTime:timeStr(),outTime:null,status:'IN'};
+  visitors.unshift(entry);save('sbc_visitors',visitors);
+  updateStats();showToast('✅ Visitor added!');
+  setTimeout(()=>openWhatsApp(entry),500);resetForm();
 }
 
-function resetForm() {
-  ['fUnit','fStaff','fDept','fPurpose'].forEach(id => document.getElementById(id).value='');
-  ['fVisitorName','fPhone','fVendor'].forEach(id => document.getElementById(id).value='');
-  document.getElementById('fDate').value = todayStr();
-  photoDataUrl = null;
-  document.getElementById('photoPreview').style.display = 'none';
-  document.getElementById('photoPlaceholder').style.display = 'block';
-  document.getElementById('photoChangeBtn').style.display = 'none';
+function resetForm(){
+  ['fUnit','fStaff','fPurpose'].forEach(id=>document.getElementById(id).value='');
+  ['fVisitorName','fPhone','fVendor'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fDept').value='';
+  document.getElementById('fDate').value=todayStr();
+  document.getElementById('fStaff').innerHTML='<option value="">Select Unit First</option>';
+  photoDataUrl=null;
+  document.getElementById('photoPreview').style.display='none';
+  document.getElementById('photoPlaceholder').style.display='block';
+  document.getElementById('photoChangeBtn').style.display='none';
   document.getElementById('photoBox').classList.remove('has-photo');
-  document.getElementById('photoInput').value = '';
-  window.scrollTo({top:0, behavior:'smooth'});
+  document.getElementById('photoInput').value='';
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// ---- WHATSAPP ----
-function openWhatsApp(entry) {
-  const phone = (masters.staffPhones||{})[entry.staff]||'';
-  const msg = `🏢 *SBC VISITOR ALERT*
-━━━━━━━━━━━━━━━
-👤 *Name:* ${entry.name}
-📞 *Phone:* ${entry.phone}
-🏭 *Company:* ${entry.vendor}
-🎯 *Purpose:* ${entry.purpose}
-━━━━━━━━━━━━━━━
-🏢 *Unit:* ${entry.unit}
-👔 *Host:* ${entry.staff}
-🏬 *Dept:* ${entry.dept}
-📅 *Date:* ${entry.date}
-🕐 *IN Time:* ${entry.inTime}
-━━━━━━━━━━━━━━━
-📸 Visitor photo captured at gate.
-_Please be ready to receive the visitor._`;
-  const url = phone ? `https://wa.me/${phone}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`;
-  window.open(url, '_blank');
+function openWhatsApp(entry){
+  const phone=(masters.staffPhones||{})[entry.staff]||'';
+  const photoNote=entry.photo?'📸 Visitor photo captured at security gate.':'📸 No photo captured.';
+  const msg=`🏢 *SBC VISITOR ALERT*\n━━━━━━━━━━━━━━━\n👤 *Name:* ${entry.name}\n📞 *Phone:* ${entry.phone}\n🏭 *Company:* ${entry.vendor}\n🎯 *Purpose:* ${entry.purpose}\n━━━━━━━━━━━━━━━\n🏢 *Unit:* ${entry.unit}\n👔 *Host:* ${entry.staff}\n🏬 *Dept:* ${entry.dept}\n📅 *Date:* ${entry.date}\n🕐 *IN Time:* ${entry.inTime}\n━━━━━━━━━━━━━━━\n${photoNote}\n_Please be ready to receive the visitor._`;
+  const url=phone?`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`:`https://wa.me/?text=${encodeURIComponent(msg)}`;
+  window.open(url,'_blank');
 }
 
-// ---- STATS ----
-function updateStats() {
-  const today = todayStr();
-  const todayV = visitors.filter(v => v.date === today);
-  document.getElementById('statTotal').textContent = todayV.length;
-  document.getElementById('statIn').textContent = todayV.filter(v=>v.status==='IN').length;
-  document.getElementById('statOut').textContent = todayV.filter(v=>v.status==='OUT').length;
-  document.getElementById('liveCount').textContent = visitors.filter(v=>v.status==='IN').length + ' Inside';
+function updateStats(){
+  const today=todayStr();
+  const todayV=visitors.filter(v=>v.date===today);
+  document.getElementById('statTotal').textContent=todayV.length;
+  document.getElementById('statIn').textContent=todayV.filter(v=>v.status==='IN').length;
+  document.getElementById('statOut').textContent=todayV.filter(v=>v.status==='OUT').length;
+  document.getElementById('liveCount').textContent=visitors.filter(v=>v.status==='IN').length+' Inside';
 }
 
-// ---- LOG ----
-function renderLog() {
-  const q = (document.getElementById('searchInput').value||'').toLowerCase();
-  const sf = document.getElementById('filterStatus').value;
-  const df = document.getElementById('filterDate').value;
-  const today = todayStr(), week = weekStart();
-  let list = visitors.filter(v => {
-    if(df==='today' && v.date!==today) return false;
-    if(df==='week' && v.date<week) return false;
-    if(sf && v.status!==sf) return false;
-    if(q && !`${v.name} ${v.vendor} ${v.staff} ${v.dept} ${v.purpose} ${v.unit}`.toLowerCase().includes(q)) return false;
+function renderLog(){
+  const q=(document.getElementById('searchInput')?.value||'').toLowerCase();
+  const sf=document.getElementById('filterStatus')?.value||'';
+  const df=document.getElementById('filterDate')?.value||'today';
+  const today=todayStr(),week=weekStart();
+  let list=visitors.filter(v=>{
+    if(df==='today'&&v.date!==today)return false;
+    if(df==='week'&&v.date<week)return false;
+    if(sf&&v.status!==sf)return false;
+    if(q&&!`${v.name} ${v.vendor} ${v.staff} ${v.dept} ${v.purpose} ${v.unit}`.toLowerCase().includes(q))return false;
     return true;
   });
-  const c = document.getElementById('visitorLog');
-  if(!list.length) {
-    c.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">No visitors found</div></div>`;
-    return;
-  }
-  c.innerHTML = list.map(v => `
-    <div class="visitor-item" onclick="openDetail(${v.id})">
-      <div class="visitor-photo">${v.photo?`<img src="${v.photo}" alt="">`: '👤'}</div>
-      <div class="visitor-info">
-        <div class="visitor-name">${escHtml(v.name)}</div>
-        <div class="visitor-meta">${escHtml(v.vendor)} · ${escHtml(v.purpose)}</div>
-        <div class="visitor-meta">${escHtml(v.staff)} · ${escHtml(v.dept)}</div>
-        <div class="visitor-time">IN: ${v.inTime}${v.outTime?' · OUT: '+v.outTime:''} · ${v.unit}</div>
-      </div>
-      <div class="visitor-right">
-        <span class="badge ${v.status==='IN'?'badge-in':'badge-out'}">${v.status}</span>
-      </div>
-    </div>`).join('');
+  const c=document.getElementById('visitorLog');
+  if(!list.length){c.innerHTML=`<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">No visitors found</div></div>`;return;}
+  c.innerHTML=list.map(v=>`<div class="visitor-item" onclick="openDetail(${v.id})">
+    <div class="visitor-photo">${v.photo?`<img src="${v.photo}" alt="">`:'👤'}</div>
+    <div class="visitor-info">
+      <div class="visitor-name">${escHtml(v.name)}</div>
+      <div class="visitor-meta">${escHtml(v.vendor)} · ${escHtml(v.purpose)}</div>
+      <div class="visitor-meta">${escHtml(v.staff)} · ${escHtml(v.dept)}</div>
+      <div class="visitor-time">IN: ${v.inTime}${v.outTime?' · OUT: '+v.outTime:''} · ${escHtml(v.unit)}</div>
+    </div>
+    <div class="visitor-right"><span class="badge ${v.status==='IN'?'badge-in':'badge-out'}">${v.status}</span></div>
+  </div>`).join('');
 }
 
-// ---- DETAIL MODAL ----
-function openDetail(id) {
-  const v = visitors.find(x=>x.id===id);
-  if(!v) return;
-  document.getElementById('modalTitle').textContent = v.name;
-  document.getElementById('modalContent').innerHTML = `
-    ${v.photo?`<img src="${v.photo}" class="modal-photo" alt="Visitor">`:''}
-    ${row('Status', `<span class="badge ${v.status==='IN'?'badge-in':'badge-out'}">${v.status}</span>`)}
-    ${row('Unit', v.unit)} ${row('Date', v.date)}
-    ${row('Phone', v.phone)} ${row('Company', v.vendor)}
-    ${row('Host Staff', v.staff)} ${row('Department', v.dept)}
-    ${row('Purpose', v.purpose)} ${row('IN Time', v.inTime)}
-    ${v.outTime?row('OUT Time', v.outTime):''}`;
-  document.getElementById('modalActions').innerHTML = `
+function openDetail(id){
+  const v=visitors.find(x=>x.id===id);if(!v)return;
+  document.getElementById('modalTitle').textContent=v.name;
+  document.getElementById('modalContent').innerHTML=`
+    ${v.photo?`<img src="${v.photo}" class="modal-photo" alt="">`:''}
+    ${row('Status',`<span class="badge ${v.status==='IN'?'badge-in':'badge-out'}">${v.status}</span>`)}
+    ${row('Unit',v.unit)}${row('Date',v.date)}${row('Phone',v.phone)}${row('Company',v.vendor)}
+    ${row('Host Staff',v.staff)}${row('Department',v.dept)}${row('Purpose',v.purpose)}${row('IN Time',v.inTime)}
+    ${v.outTime?row('OUT Time',v.outTime):''}`;
+  document.getElementById('modalActions').innerHTML=`
     ${v.status==='IN'?`<button class="btn btn-danger" onclick="markOut(${v.id})">🚪 Mark as OUT</button>`:''}
-    <button class="btn btn-whatsapp" onclick='openWhatsApp(${JSON.stringify(v)})'>
+    <button class="btn btn-whatsapp" onclick='openWhatsApp(${JSON.stringify(v).replace(/'/g,"&#39;")})'>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       Resend WhatsApp
     </button>`;
   document.getElementById('detailModal').classList.add('open');
 }
 
-function row(label, val) {
-  return `<div class="detail-row"><span class="detail-label">${label}</span><span class="detail-val">${val}</span></div>`;
+function row(label,val){return `<div class="detail-row"><span class="detail-label">${label}</span><span class="detail-val">${val}</span></div>`;}
+
+function markOut(id){
+  const idx=visitors.findIndex(x=>x.id===id);if(idx===-1)return;
+  visitors[idx].status='OUT';visitors[idx].outTime=timeStr();
+  save('sbc_visitors',visitors);updateStats();renderLog();closeModal();
+  showToast('✅ Visitor marked as OUT');
 }
 
-function markOut(id) {
-  const idx = visitors.findIndex(x=>x.id===id);
-  if(idx===-1) return;
-  visitors[idx].status='OUT'; visitors[idx].outTime=timeStr();
-  save('sbc_visitors', visitors);
-  updateStats(); renderLog(); closeModal();
-  showToast('✅ Marked as OUT — Visitor exited');
-}
+function closeModal(){document.getElementById('detailModal').classList.remove('open');}
+function handleModalClick(e){if(e.target===document.getElementById('detailModal'))closeModal();}
 
-function closeModal() { document.getElementById('detailModal').classList.remove('open'); }
-function handleModalClick(e) { if(e.target===document.getElementById('detailModal')) closeModal(); }
-
-// ---- EXPORT CSV ----
-function exportCSV() {
-  const df = document.getElementById('filterDate').value;
-  const today = todayStr(), week = weekStart();
-  let list = visitors.filter(v => {
-    if(df==='today' && v.date!==today) return false;
-    if(df==='week' && v.date<week) return false;
+function exportCSV(){
+  const df=document.getElementById('filterDate')?.value||'all';
+  const today=todayStr(),week=weekStart();
+  let list=visitors.filter(v=>{
+    if(df==='today'&&v.date!==today)return false;
+    if(df==='week'&&v.date<week)return false;
     return true;
   });
-  if(!list.length) { showToast('No data to export!'); return; }
-  const headers = ['Date','Visitor Name','Phone','Vendor','Unit','Staff','Department','Purpose','IN Time','OUT Time','Status'];
-  const rows = list.map(v => [v.date, v.name, v.phone, v.vendor, v.unit, v.staff, v.dept, v.purpose, v.inTime, v.outTime||'', v.status].map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`).join(','));
-  const csv = [headers.join(','), ...rows].join('\n');
-  const a = document.createElement('a');
-  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-  a.download = `SBC_Visitors_${today}.csv`;
-  a.click();
+  if(!list.length){showToast('No data to export!');return;}
+  const headers=['Date','Visitor Name','Phone','Vendor','Unit','Staff','Department','Purpose','IN Time','OUT Time','Status'];
+  const rows=list.map(v=>[v.date,v.name,v.phone,v.vendor,v.unit,v.staff,v.dept,v.purpose,v.inTime,v.outTime||'',v.status].map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`).join(','));
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent([headers.join(','),...rows].join('\n'));
+  a.download=`SBC_Visitors_${today}.csv`;a.click();
   showToast('📊 CSV exported!');
 }
 
-// ---- UTILS ----
-function escHtml(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function renderMastersScreen(){
+  if(currentUser?.role!=='admin'){document.getElementById('mastersContent').innerHTML='<div class="empty-state"><div class="empty-icon">🔒</div><div class="empty-text">Admin access only</div></div>';return;}
+  document.getElementById('mastersContent').innerHTML=`
+    <div class="card" style="background:var(--primary-light);border:1.5px solid #93c5fd">
+      <div style="display:flex;align-items:center;gap:8px"><span style="font-size:20px">👑</span><div><div style="font-weight:600;font-size:14px">Admin Dashboard</div><div style="font-size:12px;color:var(--text2)">Manage masters & settings</div></div></div>
+    </div>
+    <div class="card"><div class="card-title">🏭 Unit Master</div><div class="master-list" id="masterUnit"></div><div class="master-input-row"><input type="text" class="form-control" id="inputUnit" placeholder="Add unit"><button class="btn btn-primary btn-sm" onclick="addMaster('units','inputUnit','masterUnit')">+ Add</button></div></div>
+    <div class="card"><div class="card-title">👤 SBC Staff</div><div class="master-list" id="masterStaff"></div><div class="master-input-row"><input type="text" class="form-control" id="inputStaff" placeholder="Add staff name"><button class="btn btn-primary btn-sm" onclick="addMaster('staff','inputStaff','masterStaff')">+ Add</button></div></div>
+    <div class="card"><div class="card-title">🏬 Departments</div><div class="master-list" id="masterDept"></div><div class="master-input-row"><input type="text" class="form-control" id="inputDept" placeholder="Add department"><button class="btn btn-primary btn-sm" onclick="addMaster('departments','inputDept','masterDept')">+ Add</button></div></div>
+    <div class="card"><div class="card-title">📌 Purpose of Visit</div><div class="master-list" id="masterPurpose"></div><div class="master-input-row"><input type="text" class="form-control" id="inputPurpose" placeholder="Add purpose"><button class="btn btn-primary btn-sm" onclick="addMaster('purposes','inputPurpose','masterPurpose')">+ Add</button></div></div>
+    <div class="card" style="border:1.5px solid #FDE68A;background:#FFFBEB">
+      <div class="card-title">📱 Staff — Unit, Dept & WhatsApp</div>
+      <p style="font-size:12px;color:#92400E;margin-bottom:12px">Format: 91XXXXXXXXXX</p>
+      <div id="staffDetailEditor"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">🔐 Change Passwords</div>
+      <div class="form-group"><label class="form-label">Security Password</label><input type="password" class="form-control" id="newSecPass" placeholder="New password"></div>
+      <div class="form-group"><label class="form-label">Admin Password</label><input type="password" class="form-control" id="newAdminPass" placeholder="New password"></div>
+      <button class="btn btn-outline btn-sm" onclick="changePasswords()">💾 Save Passwords</button>
+    </div>
+    <div style="height:20px"></div>`;
+  renderMasterList('units','masterUnit');
+  renderMasterList('staff','masterStaff');
+  renderMasterList('departments','masterDept');
+  renderMasterList('purposes','masterPurpose');
+  renderStaffDetails();
+}
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2800);
+function renderMasterList(key,elId){
+  const el=document.getElementById(elId);if(!el)return;
+  el.innerHTML=masters[key].map((v,i)=>`<div class="master-tag">${escHtml(v)}<span class="del" onclick="delMaster('${key}',${i})">×</span></div>`).join('')||'<span style="font-size:13px;color:var(--text3)">No items yet</span>';
+}
+
+function addMaster(key,inputId,elId){
+  const v=document.getElementById(inputId)?.value.trim();if(!v)return;
+  if(masters[key].includes(v)){showToast('Already exists!');return;}
+  masters[key].push(v);saveMasters();
+  renderMasterList(key,elId);populateDropdowns();renderStaffDetails();
+  document.getElementById(inputId).value='';
+}
+
+function delMaster(key,idx){
+  if(!confirm('Delete?'))return;
+  masters[key].splice(idx,1);saveMasters();renderMastersScreen();populateDropdowns();
+}
+
+function saveMasters(){save('sbc_masters',masters);}
+
+function renderStaffDetails(){
+  const c=document.getElementById('staffDetailEditor');if(!c)return;
+  c.innerHTML=masters.staff.map(name=>{
+    const ph=(masters.staffPhones||{})[name]||'';
+    const dept=(masters.staffDept||{})[name]||'';
+    const unit=(masters.staffUnit||{})[name]||'';
+    return `<div style="background:var(--bg);border-radius:8px;padding:10px;margin-bottom:8px">
+      <div style="font-weight:600;font-size:14px;margin-bottom:8px">👤 ${escHtml(name)}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <div><div class="form-label">Unit</div>
+          <select class="form-control" style="font-size:13px;padding:7px 10px" onchange="setStaffField('${escHtml(name)}','unit',this.value)">
+            <option value="">Select</option>${masters.units.map(u=>`<option value="${escHtml(u)}"${unit===u?' selected':''}>${escHtml(u)}</option>`).join('')}
+          </select></div>
+        <div><div class="form-label">Department</div>
+          <select class="form-control" style="font-size:13px;padding:7px 10px" onchange="setStaffField('${escHtml(name)}','dept',this.value)">
+            <option value="">Select</option>${masters.departments.map(d=>`<option value="${escHtml(d)}"${dept===d?' selected':''}>${escHtml(d)}</option>`).join('')}
+          </select></div>
+      </div>
+      <div class="form-label">WhatsApp Number</div>
+      <input type="tel" class="form-control" style="font-size:13px;padding:7px 10px" placeholder="91XXXXXXXXXX" value="${escHtml(ph)}" oninput="setStaffField('${escHtml(name)}','phone',this.value)">
+    </div>`;
+  }).join('');
+}
+
+function setStaffField(name,field,val){
+  if(!masters.staffPhones)masters.staffPhones={};
+  if(!masters.staffDept)masters.staffDept={};
+  if(!masters.staffUnit)masters.staffUnit={};
+  if(field==='phone')masters.staffPhones[name]=val.trim();
+  if(field==='dept')masters.staffDept[name]=val;
+  if(field==='unit')masters.staffUnit[name]=val;
+  saveMasters();
+}
+
+function changePasswords(){
+  const sp=document.getElementById('newSecPass')?.value.trim();
+  const ap=document.getElementById('newAdminPass')?.value.trim();
+  if(sp){PASS.sec=sp;save('sbc_pass_sec',sp);}
+  if(ap){PASS.admin=ap;save('sbc_pass_admin',ap);}
+  if(sp||ap)showToast('✅ Passwords updated!');
+  if(document.getElementById('newSecPass'))document.getElementById('newSecPass').value='';
+  if(document.getElementById('newAdminPass'))document.getElementById('newAdminPass').value='';
 }
 </script>
 </body>
