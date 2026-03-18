@@ -2,7 +2,7 @@
   "name": "SBC Visitor Register",
   "short_name": "SBC Visitors",
   "description": "SBC Company Visitor Management App",
-  "start_url": "/",
+  "start_url": "/SBC-VISITOR-APP/",
   "display": "standalone",
   "background_color": "#1A56DB",
   "theme_color": "#1A56DB",
