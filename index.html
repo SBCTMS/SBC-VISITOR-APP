@@ -294,6 +294,7 @@ function load(k,def){try{const v=localStorage.getItem(k);return v!==null?JSON.pa
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
 
 // ---- PASSWORDS ----
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbxkDE3oihyDW09AxGCm1iqNkvM92gh7mcXHZmDrfw-CHNbH07hdYE2gmbFlFqVUYzdg/exec';
 let PASS=load('sbc_passwords',{unit1:'sbc@unit1',unit3:'sbc@unit3',unit4:'sbc@unit4',admin:'sbc@admin'});
 
 // ---- MASTERS ----
@@ -373,6 +374,8 @@ function initApp(){
   updateStats();
   renderLog();
   if(isAdmin)renderMastersScreen();
+  syncFromSheets();
+  setInterval(syncFromSheets, 30000);
   if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 }
 
@@ -436,7 +439,7 @@ function handlePhoto(e){
 }
 
 // ---- SUBMIT ----
-function submitEntry(){
+async function submitEntry(){
   const vals={
     unit:document.getElementById('fUnit').value,
     date:document.getElementById('fDate').value,
@@ -449,12 +452,28 @@ function submitEntry(){
   };
   if(['unit','date','name','phone','vendor','staff','purpose'].some(k=>!vals[k])){showToast('⚠️ Please fill all required fields!');return;}
   const entry={id:Date.now(),...vals,photo:photoDataUrl||null,inTime:timeStr(),outTime:null,status:'IN'};
+  
+  // Save locally first
   visitors.unshift(entry);
   save('sbc_visitors',visitors);
   updateStats();
-  showToast('✅ Visitor added!');
-  setTimeout(()=>openWhatsApp(entry),500);
+  showToast('⏳ Saving...');
   resetForm();
+  
+  // Sync to Google Sheets
+  try {
+    const res = await fetch(SCRIPT_URL, {
+      method:'POST',
+      body: JSON.stringify({action:'addVisitor',...entry})
+    });
+    const data = await res.json();
+    if(data.success) showToast('✅ Saved & Synced!');
+    else showToast('✅ Saved locally (sync failed)');
+  } catch(e) {
+    showToast('✅ Saved locally (offline)');
+  }
+  
+  setTimeout(()=>openWhatsApp(entry),500);
 }
 
 function resetForm(){
@@ -491,6 +510,26 @@ function updateStats(){
   document.getElementById('statIn').textContent=filtered.filter(v=>v.status==='IN').length;
   document.getElementById('statOut').textContent=filtered.filter(v=>v.status==='OUT').length;
   document.getElementById('liveCount').textContent=allFiltered.filter(v=>v.status==='IN').length+' Inside';
+}
+
+// ---- SYNC FROM SHEETS ----
+async function syncFromSheets(){
+  if(!currentUser) return;
+  try {
+    const unit = currentUser.role==='admin' ? 'ALL' : currentUser.unit;
+    const url = `${SCRIPT_URL}?action=getVisitors&unit=${encodeURIComponent(unit)}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if(data.success && data.visitors.length > 0){
+      // Merge: sheets data is source of truth
+      visitors = data.visitors;
+      save('sbc_visitors', visitors);
+      updateStats();
+      renderLog();
+    }
+  } catch(e) {
+    console.log('Sync failed, using local data');
+  }
 }
 
 // ---- LOG ----
@@ -546,11 +585,20 @@ function openDetail(id){
 
 function row(label,val){return `<div class="detail-row"><span class="detail-label">${label}</span><span class="detail-val">${val}</span></div>`;}
 
-function markOut(id){
+async function markOut(id){
   const idx=visitors.findIndex(x=>x.id===id);if(idx===-1)return;
-  visitors[idx].status='OUT';visitors[idx].outTime=timeStr();
+  const outTime=timeStr();
+  visitors[idx].status='OUT';visitors[idx].outTime=outTime;
   save('sbc_visitors',visitors);updateStats();renderLog();closeModal();
   showToast('✅ Visitor marked as OUT');
+  
+  // Sync OUT to Google Sheets
+  try {
+    await fetch(SCRIPT_URL, {
+      method:'POST',
+      body: JSON.stringify({action:'updateOut', id, outTime})
+    });
+  } catch(e) {}
 }
 
 function closeModal(){document.getElementById('detailModal').classList.remove('open');}
