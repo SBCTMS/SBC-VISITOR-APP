@@ -571,7 +571,7 @@ function renderLog(){
   });
   const c=document.getElementById('visitorLog');
   if(!list.length){c.innerHTML=`<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">No visitors found</div></div>`;return;}
-  c.innerHTML=list.map(v=>`<div class="visitor-item" onclick="openDetail(${v.id})">
+  c.innerHTML=list.map(v=>`<div class="visitor-item" onclick="openDetail('${v.id}')">
     <div class="visitor-photo">${v.photo?`<img src="${v.photo}" alt="">`:'👤'}</div>
     <div class="visitor-info">
       <div class="visitor-name">${escHtml(v.name)}</div>
@@ -585,7 +585,7 @@ function renderLog(){
 
 // ---- DETAIL MODAL ----
 function openDetail(id){
-  const v=visitors.find(x=>x.id===id);if(!v)return;
+  const v=visitors.find(x=>String(x.id)===String(id));if(!v)return;
   // Security can only see their unit's visitors
   if(currentUser.role!=='admin'&&v.unit!==currentUser.unit){showToast('Access denied');return;}
   document.getElementById('modalTitle').textContent=v.name;
@@ -608,7 +608,7 @@ function openDetail(id){
 function row(label,val){return `<div class="detail-row"><span class="detail-label">${label}</span><span class="detail-val">${val}</span></div>`;}
 
 function markOut(id){
-  const idx=visitors.findIndex(x=>x.id===id);if(idx===-1)return;
+  const idx=visitors.findIndex(x=>String(x.id)===String(id));if(idx===-1)return;
   const outTime=timeStr();
   visitors[idx].status='OUT';visitors[idx].outTime=outTime;
   save('sbc_visitors',visitors);updateStats();renderLog();closeModal();
