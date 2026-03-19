@@ -252,7 +252,7 @@ select.form-control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http:
       <select class="form-control" id="filterDate" onchange="renderLog()">
         <option value="today">Today</option>
         <option value="week">This Week</option>
-        <option value="all">All Days</option>
+        <option value="all" selected>All Days</option>
       </select>
     </div>
     <button class="btn btn-export" id="exportBtn" onclick="exportCSV()" style="display:none">📊 Export to CSV</button>
@@ -294,7 +294,7 @@ function load(k,def){try{const v=localStorage.getItem(k);return v!==null?JSON.pa
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
 
 // ---- PASSWORDS ----
-const SCRIPT_URL='https://script.google.com/macros/s/AKfycbxkDE3oihyDW09AxGCm1iqNkvM92gh7mcXHZmDrfw-CHNbH07hdYE2gmbFlFqVUYzdg/exec';
+const SCRIPT_URL='https://script.google.com/a/macros/sribalajicastings.com/s/AKfycbw9bL4S9GhH4qLyTlfisuOsk28WupoLvrbEYS2Ihlcagmu1EPKdZqyDES_qkpbUONbq/exec';
 let PASS=load('sbc_passwords',{unit1:'sbc@unit1',unit3:'sbc@unit3',unit4:'sbc@unit4',admin:'sbc@admin'});
 
 // ---- MASTERS ----
@@ -557,7 +557,7 @@ function normalizeDate(d){
 function renderLog(){
   const q=(document.getElementById('searchInput')?.value||'').toLowerCase();
   const sf=document.getElementById('filterStatus')?.value||'';
-  const df=document.getElementById('filterDate')?.value||'today';
+  const df=document.getElementById('filterDate')?.value||'all';
   const today=todayStr(),week=weekStart();
   const isAdmin=currentUser?.role==='admin';
   let list=visitors.filter(v=>{
